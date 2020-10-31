@@ -7,6 +7,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import React from 'react';
+import Rating from './RatingBar';
 
 const useStyles = makeStyles({
   root: {
@@ -31,11 +32,12 @@ const Product = ({ product }) => {
           <Typography gutterBottom variant='subtitle2'>
             {product.name}
           </Typography>
-          <Typography variant='caption' color='textSecondary' component='p'>
-            {product.rating} from {product.numReviews} reviews
-          </Typography>
-          <Typography variant='subtitle1' color='textPrimary' component='p'>
-            ${product.price}
+          <Rating
+            value={product.rating}
+            text={`${product.numReviews} reviews`}
+          />
+          <Typography variant='button' color='textPrimary' component='p'>
+            {product.price} €
           </Typography>
         </CardContent>
       </CardActionArea>
