@@ -4,9 +4,9 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import { Link } from '@material-ui/core';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import PersonIcon from '@material-ui/icons/Person';
+import { Link, NavLink } from 'react-router-dom';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -18,6 +18,9 @@ const useStyles = makeStyles(() => ({
   title: {
     flexGrow: 1,
   },
+  button: {
+    color: 'white',
+  },
 }));
 
 const Header = () => {
@@ -28,17 +31,19 @@ const Header = () => {
       <AppBar position="static">
         <Toolbar className={classes.toolbar}>
           <Typography variant="h6" className={classes.title}>
-            Ecommerce Application
+            <NavLink style={{ textDecoration: 'none', color: 'white' }} exact to="/">
+              Ecommerce Application
+            </NavLink>
           </Typography>
 
           <Link color="inherit" to="/cart">
-            <Button color="inherit" startIcon={<ShoppingCartIcon />}>
+            <Button className={classes.button} startIcon={<ShoppingCartIcon />}>
               Cart
             </Button>
           </Link>
 
           <Link color="inherit" to="/login">
-            <Button color="inherit" startIcon={<PersonIcon />}>
+            <Button className={classes.button} startIcon={<PersonIcon />}>
               Sign In
             </Button>
           </Link>

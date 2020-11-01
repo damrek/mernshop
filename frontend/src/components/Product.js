@@ -7,6 +7,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Rating from './RatingBar';
 
 const useStyles = makeStyles({
@@ -22,7 +23,7 @@ const Product = ({ product }) => {
   const classes = useStyles();
   return (
     <Card className={classes.root}>
-      <CardActionArea href={`/product/${product._id}`}>
+      <CardActionArea component={Link} to={`/product/${product._id}`}>
         <CardMedia className={classes.media} image={product.image} title={product.name} />
         <CardContent>
           <Typography gutterBottom variant="subtitle2">
