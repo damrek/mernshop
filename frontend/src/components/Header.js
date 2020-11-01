@@ -25,20 +25,20 @@ const Header = () => {
 
   return (
     <header>
-      <AppBar position='static'>
+      <AppBar position="static">
         <Toolbar className={classes.toolbar}>
-          <Typography variant='h6' className={classes.title}>
+          <Typography variant="h6" className={classes.title}>
             Ecommerce Application
           </Typography>
 
-          <Link color='inherit' to='/cart'>
-            <Button color='inherit' startIcon={<ShoppingCartIcon />}>
+          <Link color="inherit" to="/cart">
+            <Button color="inherit" startIcon={<ShoppingCartIcon />}>
               Cart
             </Button>
           </Link>
 
-          <Link color='inherit' to='/login'>
-            <Button color='inherit' startIcon={<PersonIcon />}>
+          <Link color="inherit" to="/login">
+            <Button color="inherit" startIcon={<PersonIcon />}>
               Sign In
             </Button>
           </Link>

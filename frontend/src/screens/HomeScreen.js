@@ -5,8 +5,8 @@ import products from '../products';
 
 const HomeScreen = () => {
   return (
-    <Grid container direction='row'>
-      <Typography variant='h5' style={{ marginTop: '25px' }} color='primary'>
+    <Grid container direction="row">
+      <Typography variant="h5" style={{ marginTop: '25px' }} color="primary">
         Latest Products
       </Typography>
       <Grid container spacing={3}>
