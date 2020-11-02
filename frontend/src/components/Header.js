@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import PersonIcon from '@material-ui/icons/Person';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -20,6 +20,12 @@ const useStyles = makeStyles(() => ({
   },
   button: {
     color: 'white',
+    '&.active': {
+      color: 'yellow',
+    },
+    '&:hover': {
+      color: 'red',
+    },
   },
 }));
 
@@ -36,17 +42,23 @@ const Header = () => {
             </NavLink>
           </Typography>
 
-          <Link color="inherit" to="/cart">
-            <Button className={classes.button} startIcon={<ShoppingCartIcon />}>
-              Cart
-            </Button>
-          </Link>
+          <Button
+            className={classes.button}
+            component={NavLink}
+            to="/cart"
+            startIcon={<ShoppingCartIcon />}
+          >
+            Cart
+          </Button>
 
-          <Link color="inherit" to="/login">
-            <Button className={classes.button} startIcon={<PersonIcon />}>
-              Sign In
-            </Button>
-          </Link>
+          <Button
+            className={classes.button}
+            component={NavLink}
+            to="/login"
+            startIcon={<PersonIcon />}
+          >
+            Sign In
+          </Button>
         </Toolbar>
       </AppBar>
     </header>
