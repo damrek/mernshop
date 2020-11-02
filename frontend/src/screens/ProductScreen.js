@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Grid, List, ListItemText, makeStyles } from '@material-ui/core';
-import RatingBar from '../components/RatingBar';
+import { RatingBar } from '../components/RatingBar';
+import _ from 'lodash';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,7 +38,7 @@ const ProductScreen = ({ match }) => {
 
   const addToCartBtnDisabled = product.countInStock === 0;
 
-  return (
+  return !_.isEmpty(product) ? (
     <div className={classes.root}>
       <Grid container spacing={4}>
         <Grid item xs={12} md={12} lg={12}>
@@ -65,7 +66,7 @@ const ProductScreen = ({ match }) => {
               <Grid item xs={12} md={4}>
                 Status: <span>{product.countInStock > 0 ? 'In Stock' : 'Out Of Stock'}</span>
               </Grid>
-              <Grid item xs={12} md={4} justify="flex-end">
+              <Grid item xs={12} md={4}>
                 <Button p={4} variant="outlined" disabled={addToCartBtnDisabled}>
                   Add To Cart
                 </Button>
@@ -79,6 +80,8 @@ const ProductScreen = ({ match }) => {
         </Grid>
       </Grid>
     </div>
+  ) : (
+    <div>Loading...</div>
   );
 };
 

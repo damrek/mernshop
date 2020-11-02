@@ -12,12 +12,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const RatingBar = ({ value, text }) => {
+export const RatingBar = ({ value, text }) => {
   const classes = useStyles();
 
   return (
     <Grid container className={classes.root}>
-      <Rating name="read-only" value={value} readOnly size="small" />
+      <Rating name="read-only" value={value || ''} readOnly size="small" />
       <Typography
         className={classes.reviewsCaption}
         variant="caption"
@@ -29,5 +29,3 @@ const RatingBar = ({ value, text }) => {
     </Grid>
   );
 };
-
-export default RatingBar;
