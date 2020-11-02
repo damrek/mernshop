@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Rating from './RatingBar';
+import RatingBar from './RatingBar';
 
 const useStyles = makeStyles({
   root: {
@@ -29,7 +29,7 @@ const Product = ({ product }) => {
           <Typography gutterBottom variant="subtitle2">
             {product.name}
           </Typography>
-          <Rating value={product.rating} text={`${product.numReviews} reviews`} />
+          <RatingBar value={product.rating} text={`${product.numReviews} reviews`} />
           <Typography variant="button" color="textPrimary" component="p">
             {product.price} €
           </Typography>

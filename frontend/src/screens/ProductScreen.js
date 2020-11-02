@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Grid, List, ListItemText, makeStyles } from '@material-ui/core';
-import Rating from '../components/RatingBar';
-import products from '../products';
+import RatingBar from '../components/RatingBar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,7 +21,19 @@ const useStyles = makeStyles((theme) => ({
 const ProductScreen = ({ match }) => {
   const classes = useStyles();
 
-  const product = products.find((p) => p._id === match.params.id);
+  const [product, setProduct] = useState({});
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const data = await fetch(`/api/products/${match.params.id}`).then((response) =>
+        response.json()
+      );
+
+      setProduct(data);
+    };
+
+    fetchProduct();
+  }, [match.params.id]);
 
   const addToCartBtnDisabled = product.countInStock === 0;
 
@@ -61,7 +72,7 @@ const ProductScreen = ({ match }) => {
               </Grid>
             </Grid>
             <ListItemText>
-              <Rating value={product.rating} text={`${product.numReviews} reviews`} />
+              <RatingBar value={product.rating} text={`${product.numReviews} reviews`} />
             </ListItemText>
             <ListItemText>{product.description}</ListItemText>
           </List>
