@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { Button, Grid, List, ListItemText, makeStyles } from '@material-ui/core';
 import { RatingBar } from '../components/RatingBar';
 import _ from 'lodash';
+import { NavLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,9 +42,9 @@ const ProductScreen = ({ match }) => {
     <div className={classes.root}>
       <Grid container spacing={4}>
         <Grid item xs={12} md={12} lg={12}>
-          <Link color="inherit" to="/">
-            <Button variant="outlined">Go back</Button>
-          </Link>
+          <Button component={NavLink} to="/" variant="outlined">
+            Go back
+          </Button>
         </Grid>
 
         <Grid item xs={12} md={5}>
