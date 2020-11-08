@@ -3,20 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { listProducts } from '../actions/productActions';
 import Product from '../components/Product';
 import { Grid, Typography } from '@material-ui/core';
-import Backdrop from '@material-ui/core/Backdrop';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { makeStyles } from '@material-ui/core/styles';
 import _ from 'lodash';
-
-const useStyles = makeStyles((theme) => ({
-  backdrop: {
-    zIndex: theme.zIndex.drawer + 1,
-    color: '#000',
-  },
-}));
+import Loader from '../components/Loader';
+import Message from '../components/Message';
 
 const HomeScreen = () => {
-  const classes = useStyles();
   const dispatch = useDispatch();
 
   const productList = useSelector((state) => state.productList);
@@ -32,13 +23,9 @@ const HomeScreen = () => {
         Latest Products
       </Typography>
       {loading ? (
-        <Backdrop className={classes.backdrop} open={_.isEmpty(products) ? true : false}>
-          <CircularProgress color="inherit" />
-        </Backdrop>
+        <Loader open={_.isEmpty(products) ? true : false} />
       ) : error ? (
-        <Grid container spacing={3} justify="center">
-          <h3>{error}</h3>
-        </Grid>
+        <Message severity="error">{error}</Message>
       ) : (
         <Grid container spacing={3}>
           {products.map((product) => (
