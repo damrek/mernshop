@@ -6,10 +6,8 @@ const Footer = () => {
   return (
     <footer>
       <Container maxWidth="sm" align="center">
-        <Grid container>
-          <Grid item xs={12}>
-            Copyright &copy; Ecommerce
-          </Grid>
+        <Grid item xs={12}>
+          Copyright &copy; Ecommerce
         </Grid>
       </Container>
     </footer>
