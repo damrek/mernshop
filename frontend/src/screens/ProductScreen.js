@@ -1,5 +1,14 @@
-import React, { useEffect } from 'react';
-import { Button, Divider, Grid, List, ListItem, ListItemText, makeStyles } from '@material-ui/core';
+import React, { useState, useEffect } from 'react';
+import {
+  Button,
+  Divider,
+  Grid,
+  List,
+  ListItem,
+  ListItemText,
+  makeStyles,
+  TextField,
+} from '@material-ui/core';
 import { RatingBar } from '../components/RatingBar';
 import _ from 'lodash';
 import { NavLink } from 'react-router-dom';
@@ -9,6 +18,7 @@ import Loader from '../components/Loader';
 import Message from '../components/Message';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import NumberFormat from 'react-number-format';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -20,9 +30,11 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const ProductScreen = ({ match }) => {
+const ProductScreen = ({ history, match }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const [qty, setQty] = useState(1);
+
   const productDetails = useSelector((state) => state.productDetails);
   const { loading, error, product } = productDetails;
 
@@ -31,6 +43,17 @@ const ProductScreen = ({ match }) => {
   }, [dispatch, match]);
 
   const addToCartBtnDisabled = product.countInStock === 0;
+
+  const handleQty = (val) => {
+    if (val > product.countInStock) {
+      val = product.countInStock;
+    }
+    setQty(val);
+  };
+
+  const addToCartHandler = () => {
+    history.push(`/cart/${match.params.id}?qty=${qty}`);
+  };
 
   return (
     !_.isEmpty(product) && (
@@ -70,6 +93,22 @@ const ProductScreen = ({ match }) => {
                   <ListItemText primary="Price" secondary={<strong> {product.price} €</strong>} />
                 </ListItem>
                 <Divider variant="center" />
+                {product.countInStock > 0 && (
+                  <ListItem>
+                    <ListItemText
+                      secondary={
+                        <NumberFormat
+                          label="Quantity"
+                          value={qty > 0 ? qty : 1}
+                          customInput={TextField}
+                          type="number"
+                          allowNegative={false}
+                          onValueChange={(e) => handleQty(e.value)}
+                        />
+                      }
+                    />
+                  </ListItem>
+                )}
                 <ListItem>
                   <ListItemText
                     primary="Status"
@@ -85,6 +124,7 @@ const ProductScreen = ({ match }) => {
                           variant="outlined"
                           disabled={addToCartBtnDisabled}
                           startIcon={<ShoppingBasketIcon />}
+                          onClick={addToCartHandler}
                         >
                           Add To Cart
                         </Button>
