@@ -36,7 +36,7 @@ const ProductScreen = ({ history, match }) => {
   const [qty, setQty] = useState(1);
 
   const productDetails = useSelector((state) => state.productDetails);
-  const { loading, error, product } = productDetails;
+  const { loading, error, product = null } = productDetails;
 
   useEffect(() => {
     dispatch(listProductDetails(match.params.id));
@@ -92,7 +92,7 @@ const ProductScreen = ({ history, match }) => {
                 <ListItem>
                   <ListItemText primary="Price" secondary={<strong> {product.price} €</strong>} />
                 </ListItem>
-                <Divider variant="center" />
+                <Divider variant="fullWidth" />
                 {product.countInStock > 0 && (
                   <ListItem>
                     <ListItemText

@@ -17,7 +17,7 @@ export const RatingBar = ({ value, text }) => {
 
   return (
     <Grid container className={classes.root}>
-      <Rating name="read-only" value={value || ''} readOnly size="small" />
+      <Rating name="read-only" value={value || 0} readOnly size="small" />
       <Typography
         className={classes.reviewsCaption}
         variant="caption"
