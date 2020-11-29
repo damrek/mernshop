@@ -29,11 +29,28 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write"
+    ],
+    "*.js": [
+      "./node_modules/.bin/eslint "
+    ]
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "no-unused-vars": "error",
+      "react-hooks/exhaustive-deps": "error"
+    }
   },
   "browserslist": {
     "production": [
@@ -48,6 +65,9 @@
     ]
   },
   "devDependencies": {
-    "prettier": "2.1.2"
+    "eslint": "^7.14.0",
+    "husky": "^4.3.0",
+    "lint-staged": "^10.5.2",
+    "prettier": "^2.2.1"
   }
 }
