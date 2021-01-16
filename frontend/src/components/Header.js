@@ -6,7 +6,9 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import PersonIcon from '@material-ui/icons/Person';
+import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import UserInfoMenu from './UserInfoMenu';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -32,6 +34,9 @@ const useStyles = makeStyles(() => ({
 const Header = () => {
   const classes = useStyles();
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
   return (
     <header>
       <AppBar position="static">
@@ -51,14 +56,18 @@ const Header = () => {
             Cart
           </Button>
 
-          <Button
-            className={classes.button}
-            component={NavLink}
-            to="/login"
-            startIcon={<PersonIcon />}
-          >
-            Sign In
-          </Button>
+          {userInfo ? (
+            <UserInfoMenu userInfo={userInfo} />
+          ) : (
+            <Button
+              className={classes.button}
+              component={NavLink}
+              to="/login"
+              startIcon={<PersonIcon />}
+            >
+              Sign In
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
     </header>
