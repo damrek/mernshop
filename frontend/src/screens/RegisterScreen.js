@@ -7,6 +7,7 @@ import { register } from '../actions/userActions';
 import FormContainer from '../components/FormContainer';
 import { Button, Grid, makeStyles, TextField, Typography } from '@material-ui/core';
 import isEmail from '../utils/validations/isEmail';
+import PasswordInput from '../components/inputs/PasswordInput';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,6 +36,8 @@ const RegisterScreen = ({ location, history }) => {
 
   const passwordsMatch = password === confirmPassword && password !== '';
   const isValidEmail = isEmail(email);
+  const btnSubmitIsDisabled =
+    name === '' || email === '' || password === '' || confirmPassword === '';
 
   useEffect(() => {
     if (userInfo) {
@@ -85,29 +88,32 @@ const RegisterScreen = ({ location, history }) => {
           onChange={(e) => setEmail(e.target.value)}
           helperText={!isValidEmail && email.length > 1 ? 'Invalid email' : null}
         />
-        <TextField
-          required
-          variant="outlined"
-          type="password"
+        <PasswordInput
           id="password"
           label="Password"
           defaultValue="Enter password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <TextField
-          required
           variant="outlined"
-          type="password"
+          handleOnChange={setPassword}
+          value={password}
+        />
+        <PasswordInput
           id="confirmPassword"
           label="Confirm password"
           defaultValue="Enter password"
+          variant="outlined"
+          handleOnChange={setConfirmPassword}
           value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
         />
+
         {message && <Message severity="error">{message}</Message>}
         {error && <Message severity="error">{error}</Message>}
-        <Button variant="contained" width="100px" color="primary" onClick={submitHandler}>
+        <Button
+          variant="contained"
+          width="100px"
+          color="primary"
+          onClick={submitHandler}
+          disabled={btnSubmitIsDisabled}
+        >
           Register
         </Button>
         <Grid item style={{ textAlign: 'center', paddingTop: '5px' }}>

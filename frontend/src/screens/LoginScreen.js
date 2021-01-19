@@ -6,6 +6,7 @@ import Loader from '../components/Loader';
 import { login } from '../actions/userActions';
 import FormContainer from '../components/FormContainer';
 import { Button, Grid, makeStyles, TextField, Typography } from '@material-ui/core';
+import PasswordInput from '../components/inputs/PasswordInput';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,6 +29,8 @@ const LoginScreen = ({ location, history }) => {
   const { loading, error, userInfo } = userLogin;
 
   const redirect = location.search ? location.search.split('=')[1] : '/';
+
+  const btnSubmitIsDisabled = email === '' || password === '';
 
   useEffect(() => {
     if (userInfo) {
@@ -56,18 +59,22 @@ const LoginScreen = ({ location, history }) => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <TextField
-          required
-          variant="outlined"
-          type="password"
+        <PasswordInput
           id="password"
           label="Password"
           defaultValue="Enter password"
+          variant="outlined"
+          handleOnChange={setPassword}
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
         />
         {error && <Message severity="error">{error}</Message>}
-        <Button variant="contained" width="100px" color="primary" onClick={submitHandler}>
+        <Button
+          variant="contained"
+          width="100px"
+          color="primary"
+          onClick={submitHandler}
+          disabled={btnSubmitIsDisabled}
+        >
           Sign In
         </Button>
         <Grid item style={{ textAlign: 'center', paddingTop: '5px' }}>
