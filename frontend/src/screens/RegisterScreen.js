@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
@@ -35,13 +35,12 @@ const RegisterScreen = ({ location, history }) => {
   const redirect = location.search ? location.search.split('=')[1] : '/';
 
   const passwordsMatch = password === confirmPassword && password !== '';
-  const isValidEmail = isEmail(email);
+  const isValidEmail = useMemo(() => isEmail(email), [email]);
   const btnSubmitIsDisabled =
     name === '' || email === '' || password === '' || confirmPassword === '';
 
   useEffect(() => {
     if (userInfo) {
-      console.log('userInfo', userInfo);
       history.push(redirect);
     }
   }, [history, userInfo, redirect]);
@@ -61,7 +60,7 @@ const RegisterScreen = ({ location, history }) => {
 
   return (
     <FormContainer>
-      {loading && <Loader />}
+      {loading && <Loader open={true} />}
       <form className={classes.root} autoComplete="off">
         <Typography variant="h5" style={{ marginTop: '25px', textAlign: 'center' }} color="primary">
           Sign Up
@@ -71,7 +70,6 @@ const RegisterScreen = ({ location, history }) => {
           variant="outlined"
           id="name"
           label="Name"
-          defaultValue="Enter name"
           value={name}
           onChange={(e) => setName(e.target.value)}
           helperText={
@@ -83,7 +81,6 @@ const RegisterScreen = ({ location, history }) => {
           variant="outlined"
           id="email"
           label="Email Address"
-          defaultValue="Enter email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           helperText={!isValidEmail && email.length > 1 ? 'Invalid email' : null}
@@ -91,7 +88,6 @@ const RegisterScreen = ({ location, history }) => {
         <PasswordInput
           id="password"
           label="Password"
-          defaultValue="Enter password"
           variant="outlined"
           handleOnChange={setPassword}
           value={password}
@@ -99,7 +95,6 @@ const RegisterScreen = ({ location, history }) => {
         <PasswordInput
           id="confirmPassword"
           label="Confirm password"
-          defaultValue="Enter password"
           variant="outlined"
           handleOnChange={setConfirmPassword}
           value={confirmPassword}

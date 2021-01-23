@@ -10,7 +10,7 @@ import React, { useState } from 'react';
  * @param {*} params
  * @param  {...any} props
  */
-const PasswordInput = ({ id, label, variant, defaultValue, value, handleOnChange }, ...props) => {
+const PasswordInput = ({ id, label, variant, defaultValue, value, handleOnChange }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => {
@@ -43,7 +43,6 @@ const PasswordInput = ({ id, label, variant, defaultValue, value, handleOnChange
           </InputAdornment>
         ),
       }}
-      props
     />
   );
 };

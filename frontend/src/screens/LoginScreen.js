@@ -45,7 +45,7 @@ const LoginScreen = ({ location, history }) => {
 
   return (
     <FormContainer>
-      {loading && <Loader />}
+      {loading && <Loader open={true} />}
       <form className={classes.root} autoComplete="off">
         <Typography variant="h5" style={{ marginTop: '25px', textAlign: 'center' }} color="primary">
           Sign In
@@ -55,14 +55,12 @@ const LoginScreen = ({ location, history }) => {
           variant="outlined"
           id="email"
           label="Email Address"
-          defaultValue="Enter email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <PasswordInput
           id="password"
           label="Password"
-          defaultValue="Enter password"
           variant="outlined"
           handleOnChange={setPassword}
           value={password}
