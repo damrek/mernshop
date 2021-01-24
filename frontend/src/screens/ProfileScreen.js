@@ -2,9 +2,9 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import { getUserDetails } from '../actions/userActions';
+import { getUserDetails, updateUserProfile } from '../actions/userActions';
 import FormContainer from '../components/FormContainer';
-import { Button, makeStyles, TextField, Typography } from '@material-ui/core';
+import { Button, LinearProgress, makeStyles, TextField, Typography } from '@material-ui/core';
 import isEmail from '../utils/validations/isEmail';
 import PasswordInput from '../components/inputs/PasswordInput';
 
@@ -25,6 +25,7 @@ const ProfileScreen = ({ location, history }) => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState(null);
+  const [submitStatus, setSubmitStatus] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -34,10 +35,12 @@ const ProfileScreen = ({ location, history }) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  const passwordsMatch = password === confirmPassword && password !== '';
+  const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
+  const { success } = userUpdateProfile;
+
+  const passwordsMatch = password === confirmPassword;
   const isValidEmail = useMemo(() => isEmail(email), [email]);
-  const btnSubmitIsDisabled =
-    name === '' || email === '' || password === '' || confirmPassword === '';
+  const btnSubmitIsDisabled = name === '' || email === '' || password !== confirmPassword;
 
   useEffect(() => {
     if (!userInfo) {
@@ -61,17 +64,26 @@ const ProfileScreen = ({ location, history }) => {
     } else if (!isValidEmail) {
       setMessage('Email not valid');
     } else {
-      //   dispatch(register(name, email, password));
+      setSubmitStatus(true);
+      dispatch(updateUserProfile({ id: user._id, name, email, password }));
     }
   };
 
+  useEffect(() => {
+    if (success) {
+      setSubmitStatus(false);
+    }
+  }, [loading, success]);
+
   return (
     <FormContainer>
-      {loading && <Loader open={true} />}
+      {loading && <Loader open={loading} />}
       <form className={classes.root} autoComplete="off">
         <Typography variant="h5" style={{ marginTop: '25px', textAlign: 'center' }} color="primary">
-          {userInfo && userInfo.name ? `Welcome ${userInfo.name}` : null}
+          {user && user.name ? `Welcome ${user.name}` : null}
         </Typography>
+        {submitStatus && <LinearProgress />}
+        {success && <Message severity="success">Profile updated</Message>}
         <TextField
           required
           variant="outlined"
