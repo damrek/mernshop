@@ -6,6 +6,28 @@ import { logout } from '../actions/userActions';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 const useStyles = makeStyles(() => ({
+  menuPaper: {
+    backgroundColor: '#673ab7',
+    color: 'white',
+    '&.active': {
+      color: 'yellow',
+    },
+    '&:hover': {
+      color: 'red',
+    },
+  },
+
+  menuItemRoot: {
+    backgroundColor: '#673ab7',
+    color: 'white',
+    '&.active': {
+      color: 'yellow',
+    },
+    '&:hover': {
+      color: 'red',
+    },
+  },
+
   button: {
     color: 'white',
     '&.active': {
@@ -50,11 +72,19 @@ const UserInfoMenu = ({ userInfo }) => {
         keepMounted
         open={Boolean(anchorEl)}
         onClose={handleClose}
+        classes={{ paper: classes.menuPaper }}
       >
-        <MenuItem onClick={handleClose} component={Link} to="/profile">
+        <MenuItem
+          onClick={handleClose}
+          component={Link}
+          to="/profile"
+          classes={{ root: classes.menuItemRoot }}
+        >
           Profile
         </MenuItem>
-        <MenuItem onClick={logoutHandler}>Logout</MenuItem>
+        <MenuItem onClick={logoutHandler} classes={{ root: classes.menuItemRoot }}>
+          Logout
+        </MenuItem>
       </Menu>
     </div>
   );

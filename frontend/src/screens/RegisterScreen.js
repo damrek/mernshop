@@ -60,7 +60,7 @@ const RegisterScreen = ({ location, history }) => {
 
   return (
     <FormContainer>
-      {loading && <Loader open={true} />}
+      {loading && <Loader open={loading} />}
       <form className={classes.root} autoComplete="off">
         <Typography variant="h5" style={{ marginTop: '25px', textAlign: 'center' }} color="primary">
           Sign Up
