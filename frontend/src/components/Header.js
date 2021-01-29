@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import UserInfoMenu from './UserInfoMenu';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
@@ -19,6 +19,9 @@ const useStyles = makeStyles(() => ({
   },
   title: {
     flexGrow: 1,
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 'small',
+    },
   },
   button: {
     color: 'white',
@@ -27,6 +30,9 @@ const useStyles = makeStyles(() => ({
     },
     '&:hover': {
       color: 'red',
+    },
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 'small',
     },
   },
 }));

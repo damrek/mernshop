@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Box,
   Button,
   Grid,
   IconButton,
@@ -19,16 +20,28 @@ import { addToCart, removeFromCart } from '../actions/cartActions';
 import Message from '../components/Message';
 import DeleteIcon from '@material-ui/icons/Delete';
 import NumberFormat from 'react-number-format';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     marginTop: '5px',
     alignItems: 'center',
+    '& > *': {
+      margin: theme.spacing(1),
+      width: '100%',
+    },
   },
   large: {
     width: theme.spacing(7),
     height: theme.spacing(7),
     marginRight: theme.spacing(2),
+  },
+
+  itemNameText: {
+    textDecoration: 'none',
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 'small',
+    },
   },
 }));
 
@@ -58,12 +71,15 @@ const CartScreen = ({ match, location, history }) => {
   };
 
   return (
-    <>
+    <div>
       <Grid container direction="column">
         <Grid item xs={12} md={7}>
-          <Typography variant="h5" style={{ marginTop: '25px' }} color="primary">
-            Shopping Cart
-          </Typography>
+          <Box>
+            <Typography variant="h5" style={{ marginTop: '25px' }} color="primary">
+              <ShoppingCartIcon fontSize="default" style={{ position: 'relative', top: '4px' }} />{' '}
+              Shopping Cart
+            </Typography>
+          </Box>
         </Grid>
         {cartItems.length === 0 ? (
           <Message>
@@ -73,51 +89,62 @@ const CartScreen = ({ match, location, history }) => {
             </Link>
           </Message>
         ) : (
-          <>
-            <Grid container alignItems="center" className={classes.root}>
-              <Grid item xs={12} md={4}>
-                <Typography variant="h7" color="textSecondary">
-                  Subtotal ({cartItems.reduce((acc, item) => acc + item.qty, 0)} items)
+          <div>
+            <Grid container justify="flex-start" alignItems="center" className={classes.root}>
+              <Grid item xs={4} md={2}>
+                <Typography
+                  variant="subtitle1"
+                  color="textSecondary"
+                  className={classes.itemNameText}
+                >
+                  Subtotal: ({cartItems.reduce((acc, item) => acc + item.qty, 0)} items)
                 </Typography>
               </Grid>
-              <Grid item xs={12} md={4}>
-                <Typography variant="h7" color="textSecondary">
-                  Total:{' '}
+              <Grid item xs={2} md={2}>
+                <Typography
+                  variant="subtitle1"
+                  color="textSecondary"
+                  className={classes.itemNameText}
+                  style={{ fontWeight: 'bold' }}
+                >
                   {cartItems.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)}€
                 </Typography>
               </Grid>
-              <Grid item xs={12} md={4}>
+              <Grid item xs>
                 <Button
                   variant="outlined"
                   disabled={cartItems.length === 0}
                   onClick={checkoutHandler}
+                  className={classes.btnCheckout}
+                  size="small"
                 >
-                  Proceed To Checkout
+                  Checkout
                 </Button>
               </Grid>
             </Grid>
-            <Grid container justify="space-between" alignItems="center" className={classes.root}>
-              <Grid item xs={12} md={7}>
-                <List>
+            <Grid container alignItems="center" className={classes.root}>
+              <List>
+                <Grid item xs={12}>
                   {cartItems.map((item) => (
-                    <ListItem key={item.product} alignItems="center">
+                    <ListItem key={item.product} alignItems="flex-start" style={{ width: '100%' }}>
                       <ListItemAvatar>
                         <Avatar alt={item.name} src={item.image} className={classes.large} />
                       </ListItemAvatar>
                       <ListItemText
+                        style={{ width: '20%' }}
                         primary={
                           <Link
                             color="primary"
-                            style={{ textDecoration: 'none' }}
+                            className={classes.itemNameText}
                             to={`/product/${item.product}`}
                           >
                             {item.name}
                           </Link>
                         }
                         secondary={`${item.price} €`}
-                        style={{ minWidth: '350px' }}
                       ></ListItemText>
                       <ListItemText
+                        style={{ width: '20%' }}
                         secondary={
                           <NumberFormat
                             label="Quantity"
@@ -143,13 +170,13 @@ const CartScreen = ({ match, location, history }) => {
                       </ListItemSecondaryAction>
                     </ListItem>
                   ))}
-                </List>
-              </Grid>
+                </Grid>
+              </List>
             </Grid>
-          </>
+          </div>
         )}
       </Grid>
-    </>
+    </div>
   );
 };
 

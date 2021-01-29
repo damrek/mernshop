@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react';
 import {
   Button,
   Divider,
+  FormControl,
   Grid,
+  InputLabel,
   List,
   ListItem,
   ListItemText,
   makeStyles,
-  TextField,
+  MenuItem,
+  Select,
 } from '@material-ui/core';
 import { RatingBar } from '../components/RatingBar';
 import _ from 'lodash';
@@ -18,7 +21,6 @@ import Loader from '../components/Loader';
 import Message from '../components/Message';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import NumberFormat from 'react-number-format';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -97,14 +99,24 @@ const ProductScreen = ({ history, match }) => {
                   <ListItem>
                     <ListItemText
                       secondary={
-                        <NumberFormat
-                          label="Quantity"
-                          value={qty > 0 ? qty : 1}
-                          customInput={TextField}
-                          type="number"
-                          allowNegative={false}
-                          onValueChange={(e) => handleQty(e.value)}
-                        />
+                        <FormControl className={classes.formControl}>
+                          <InputLabel id="quantity">Quantity</InputLabel>
+                          <Select
+                            labelId="quantity-select"
+                            id="selectquantity"
+                            value={qty > 0 ? qty : 1}
+                            onChange={(e) => handleQty(e.target.value)}
+                            variant="standard"
+                          >
+                            {[
+                              ...Array(product.countInStock > 5 ? 5 : product.countInStock).keys(),
+                            ].map((q) => (
+                              <MenuItem key={q} value={q + 1}>
+                                {q + 1} items
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
                       }
                     />
                   </ListItem>
