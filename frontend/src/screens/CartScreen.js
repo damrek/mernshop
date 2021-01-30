@@ -76,8 +76,7 @@ const CartScreen = ({ match, location, history }) => {
         <Grid item xs={12} md={7}>
           <Box>
             <Typography variant="h5" style={{ marginTop: '25px' }} color="primary">
-              <ShoppingCartIcon fontSize="default" style={{ position: 'relative', top: '4px' }} />{' '}
-              Shopping Cart
+              <ShoppingCartIcon style={{ position: 'relative', top: '4px' }} /> Shopping Cart
             </Typography>
           </Box>
         </Grid>
