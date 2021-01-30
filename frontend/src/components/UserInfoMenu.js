@@ -5,9 +5,9 @@ import { Link } from 'react-router-dom';
 import { logout } from '../actions/userActions';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   menuPaper: {
-    backgroundColor: '#673ab7',
+    backgroundColor: theme.palette.primary.main,
     color: 'white',
     '&.active': {
       color: 'yellow',
@@ -18,7 +18,7 @@ const useStyles = makeStyles(() => ({
   },
 
   menuItemRoot: {
-    backgroundColor: '#673ab7',
+    backgroundColor: theme.palette.primary.main,
     color: 'white',
     '&.active': {
       color: 'yellow',

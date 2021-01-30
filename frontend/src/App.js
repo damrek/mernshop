@@ -10,23 +10,37 @@ import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import ShippingScreen from './screens/ShippingScreen';
+import PaymentScreen from './screens/PaymentScreen';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core';
+import { deepPurple } from '@material-ui/core/colors';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: deepPurple[500],
+    },
+  },
+});
 
 const App = () => {
   return (
     <Router>
-      <Header />
-      <main>
-        <Container>
-          <Route path="/shipping" component={ShippingScreen} />
-          <Route path="/register" component={RegisterScreen} />
-          <Route path="/login" component={LoginScreen} />
-          <Route path="/profile" component={ProfileScreen} />
-          <Route path="/product/:id" component={ProductScreen} />
-          <Route path="/cart/:id?" component={CartScreen} />
-          <Route path="/" component={HomeScreen} exact />
-        </Container>
-      </main>
-      <Footer />
+      <ThemeProvider theme={theme}>
+        <Header />
+        <main>
+          <Container>
+            <Route path="/payment" component={PaymentScreen} />
+            <Route path="/shipping" component={ShippingScreen} />
+            <Route path="/register" component={RegisterScreen} />
+            <Route path="/login" component={LoginScreen} />
+            <Route path="/profile" component={ProfileScreen} />
+            <Route path="/product/:id" component={ProductScreen} />
+            <Route path="/cart/:id?" component={CartScreen} />
+            <Route path="/" component={HomeScreen} exact />
+          </Container>
+        </main>
+        <Footer />
+      </ThemeProvider>
     </Router>
   );
 };
