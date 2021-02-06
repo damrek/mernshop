@@ -4,6 +4,7 @@ import FormContainer from '../components/FormContainer';
 import { Box, Button, makeStyles, TextField, Typography } from '@material-ui/core';
 import LocalShippingIcon from '@material-ui/icons/LocalShipping';
 import { saveShippingAddress } from '../actions/cartActions';
+import CheckoutSteps from '../components/CheckoutSteps';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,61 +54,64 @@ const ShippingScreen = ({ history }) => {
   };
 
   return (
-    <FormContainer>
-      <form className={classes.root} autoComplete="off">
-        <Box>
-          <Typography
-            variant="h5"
-            style={{ marginTop: '25px', textAlign: 'center' }}
+    <div>
+      <CheckoutSteps step={0} />
+      <FormContainer>
+        <form className={classes.root} autoComplete="off">
+          <Box>
+            <Typography variant="subtitle2" style={{ textAlign: 'center' }} color="primary">
+              {' '}
+              <LocalShippingIcon
+                fontSize="small"
+                style={{ position: 'relative', top: '4px' }}
+              />{' '}
+              Shipping process
+            </Typography>
+          </Box>
+          <TextField
+            required
+            variant="outlined"
+            id="address"
+            label="Address"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+          />
+          <TextField
+            required
+            variant="outlined"
+            id="city"
+            label="City"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+          />
+          <TextField
+            required
+            variant="outlined"
+            id="postalCode"
+            label="Postalcode"
+            value={postalCode}
+            onChange={(e) => setPostalCode(e.target.value)}
+          />
+          <TextField
+            required
+            variant="outlined"
+            id="country"
+            label="Country"
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
+          />
+          <Button
+            variant="contained"
+            width="100px"
             color="primary"
+            onClick={submitHandler}
+            disabled={btnSubmitIsDisabled}
           >
-            {' '}
-            <LocalShippingIcon style={{ position: 'relative', top: '4px' }} /> Shipping process
-          </Typography>
-        </Box>
-        <TextField
-          required
-          variant="outlined"
-          id="address"
-          label="Address"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-        />
-        <TextField
-          required
-          variant="outlined"
-          id="city"
-          label="City"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-        />
-        <TextField
-          required
-          variant="outlined"
-          id="postalCode"
-          label="Postalcode"
-          value={postalCode}
-          onChange={(e) => setPostalCode(e.target.value)}
-        />
-        <TextField
-          required
-          variant="outlined"
-          id="country"
-          label="Country"
-          value={country}
-          onChange={(e) => setCountry(e.target.value)}
-        />
-        <Button
-          variant="contained"
-          width="100px"
-          color="primary"
-          onClick={submitHandler}
-          disabled={btnSubmitIsDisabled}
-        >
-          Continue
-        </Button>
-      </form>
-    </FormContainer>
+            Continue
+          </Button>
+        </form>
+      </FormContainer>
+    </div>
   );
 };
 

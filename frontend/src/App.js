@@ -13,6 +13,7 @@ import ShippingScreen from './screens/ShippingScreen';
 import PaymentScreen from './screens/PaymentScreen';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import { deepPurple } from '@material-ui/core/colors';
+import PlaceOrderScreen from './screens/PlaceOrderScreen';
 
 const theme = createMuiTheme({
   palette: {
@@ -29,6 +30,7 @@ const App = () => {
         <Header />
         <main>
           <Container>
+            <Route path="/placeorder" component={PlaceOrderScreen} />
             <Route path="/payment" component={PaymentScreen} />
             <Route path="/shipping" component={ShippingScreen} />
             <Route path="/register" component={RegisterScreen} />
