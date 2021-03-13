@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Box,
@@ -14,6 +14,8 @@ import {
 } from '@material-ui/core';
 import DescriptionIcon from '@material-ui/icons/Description';
 import CheckoutSteps from '../components/CheckoutSteps';
+import { createOrder } from '../actions/orderActions';
+import Message from '../components/Message';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,11 +43,29 @@ const PlaceOrderScreen = ({ history }) => {
     Number(cart.itemsPrice) + Number(cart.taxPrice) + Number(cart.shippingPrice)
   ).toFixed(2);
 
-  const placeOrderHandler = (e) => {
-    e.preventDefault();
-    dispatch(console.log('place order'));
-    history.push('/payment');
+  const orderCreate = useSelector((state) => state.orderCreate);
+  // eslint-disable-next-line
+  const { order, success, error } = orderCreate;
+
+  const placeOrderHandler = () => {
+    dispatch(
+      createOrder({
+        orderItems: cart.cartItems,
+        shippingAddress: cart.shippingAddress,
+        paymentMethod: cart.paymentMethod,
+        itemsPrice: cart.itemsPrice,
+        shippingPrice: cart.shippingPrice,
+        taxPrice: cart.taxPrice,
+        totalPrice: cart.totalPrice,
+      })
+    );
   };
+
+  useEffect(() => {
+    if (success) {
+      history.push(`/order/${order._id}`);
+    }
+  }, [history, success, order]);
 
   return (
     <div className={classes.root}>
@@ -130,6 +150,7 @@ const PlaceOrderScreen = ({ history }) => {
                         <p>
                           <strong>Total:</strong> {cart.totalPrice}€
                         </p>
+                        <p>{error && <Message severity="error">{error}</Message>}</p>
                         <Button
                           variant="contained"
                           width="100px"
