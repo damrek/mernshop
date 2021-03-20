@@ -1,5 +1,4 @@
 import React from 'react';
-import Container from '@material-ui/core/Container';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import HomeScreen from './screens/HomeScreen';
@@ -29,19 +28,17 @@ const App = () => {
     <Router>
       <ThemeProvider theme={theme}>
         <Header />
-        <main>
-          <Container>
-            <Route path="/order/:id" component={OrderScreen} />
-            <Route path="/placeorder" component={PlaceOrderScreen} />
-            <Route path="/payment" component={PaymentScreen} />
-            <Route path="/shipping" component={ShippingScreen} />
-            <Route path="/register" component={RegisterScreen} />
-            <Route path="/login" component={LoginScreen} />
-            <Route path="/profile" component={ProfileScreen} />
-            <Route path="/product/:id" component={ProductScreen} />
-            <Route path="/cart/:id?" component={CartScreen} />
-            <Route path="/" component={HomeScreen} exact />
-          </Container>
+        <main style={{ paddingRight: '5%', paddingLeft: '5%' }}>
+          <Route path="/order/:id" component={OrderScreen} />
+          <Route path="/placeorder" component={PlaceOrderScreen} />
+          <Route path="/payment" component={PaymentScreen} />
+          <Route path="/shipping" component={ShippingScreen} />
+          <Route path="/register" component={RegisterScreen} />
+          <Route path="/login" component={LoginScreen} />
+          <Route path="/profile" component={ProfileScreen} />
+          <Route path="/product/:id" component={ProductScreen} />
+          <Route path="/cart/:id?" component={CartScreen} />
+          <Route path="/" component={HomeScreen} exact />
         </main>
         <Footer />
       </ThemeProvider>

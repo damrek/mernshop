@@ -2,6 +2,7 @@ import {
   Avatar,
   Box,
   Button,
+  Container,
   Grid,
   IconButton,
   List,
@@ -43,6 +44,10 @@ const useStyles = makeStyles((theme) => ({
       fontSize: 'small',
     },
   },
+
+  deleteItemIcon: {
+    color: 'red',
+  },
 }));
 
 const CartScreen = ({ match, location, history }) => {
@@ -71,7 +76,7 @@ const CartScreen = ({ match, location, history }) => {
   };
 
   return (
-    <div>
+    <Container>
       <Grid container direction="column">
         <Grid item xs={12} md={7}>
           <Box>
@@ -99,7 +104,7 @@ const CartScreen = ({ match, location, history }) => {
                   Subtotal: ({cartItems.reduce((acc, item) => acc + item.qty, 0)} items)
                 </Typography>
               </Grid>
-              <Grid item xs={2} md={2}>
+              <Grid item xs={2} md={5}>
                 <Typography
                   variant="subtitle1"
                   color="textSecondary"
@@ -111,10 +116,10 @@ const CartScreen = ({ match, location, history }) => {
               </Grid>
               <Grid item xs>
                 <Button
-                  variant="outlined"
+                  color="primary"
+                  variant="contained"
                   disabled={cartItems.length === 0}
                   onClick={checkoutHandler}
-                  className={classes.btnCheckout}
                   size="small"
                 >
                   Checkout
@@ -123,7 +128,7 @@ const CartScreen = ({ match, location, history }) => {
             </Grid>
             <Grid container alignItems="center" className={classes.root}>
               <List>
-                <Grid item xs={12}>
+                <Grid item xs={12} md={8}>
                   {cartItems.map((item) => (
                     <ListItem key={item.product} alignItems="flex-start" style={{ width: '100%' }}>
                       <ListItemAvatar>
@@ -151,9 +156,10 @@ const CartScreen = ({ match, location, history }) => {
                             customInput={TextField}
                             type="number"
                             allowNegative={false}
-                            onChange={(e) =>
-                              dispatch(addToCart(item.product, Number(e.target.value)))
-                            }
+                            onChange={(e) => {
+                              if (e.target.value > 0)
+                                dispatch(addToCart(item.product, Number(e.target.value)));
+                            }}
                           />
                         }
                       ></ListItemText>
@@ -163,6 +169,7 @@ const CartScreen = ({ match, location, history }) => {
                           edge="end"
                           aria-label="delete"
                           onClick={() => removeFromCartHandler(item.product)}
+                          className={classes.deleteItemIcon}
                         >
                           <DeleteIcon />
                         </IconButton>
@@ -175,7 +182,7 @@ const CartScreen = ({ match, location, history }) => {
           </div>
         )}
       </Grid>
-    </div>
+    </Container>
   );
 };
 

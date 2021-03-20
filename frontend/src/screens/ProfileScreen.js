@@ -4,9 +4,38 @@ import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { getUserDetails, updateUserProfile } from '../actions/userActions';
 import FormContainer from '../components/FormContainer';
-import { Button, LinearProgress, makeStyles, TextField, Typography } from '@material-ui/core';
+import {
+  Button,
+  Grid,
+  LinearProgress,
+  makeStyles,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
+  Tooltip,
+  Typography,
+  withStyles,
+} from '@material-ui/core';
 import isEmail from '../utils/validations/isEmail';
 import PasswordInput from '../components/inputs/PasswordInput';
+import { listMyOrders } from '../actions/orderActions';
+import InfoIcon from '@material-ui/icons/Info';
+import { NavLink } from 'react-router-dom';
+
+const StyledTableCell = withStyles((theme) => ({
+  head: {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.common.white,
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,6 +44,10 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
       width: '100%',
     },
+  },
+
+  notPaidIcon: {
+    color: 'red',
   },
 }));
 
@@ -38,9 +71,13 @@ const ProfileScreen = ({ location, history }) => {
   const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
   const { success } = userUpdateProfile;
 
+  const orderListMy = useSelector((state) => state.orderListMy);
+  const { loading: loadingOrders, error: errorOrders, orders } = orderListMy;
+
   const passwordsMatch = password === confirmPassword;
   const isValidEmail = useMemo(() => isEmail(email), [email]);
-  const btnSubmitIsDisabled = name === '' || email === '' || password !== confirmPassword;
+  const btnSubmitIsDisabled =
+    name === '' || email === '' || password !== confirmPassword || password.length === 0;
 
   useEffect(() => {
     if (!userInfo) {
@@ -48,6 +85,7 @@ const ProfileScreen = ({ location, history }) => {
     } else {
       if (!user.name) {
         dispatch(getUserDetails('profile'));
+        dispatch(listMyOrders());
       } else {
         setName(user.name);
         setEmail(user.email);
@@ -76,62 +114,135 @@ const ProfileScreen = ({ location, history }) => {
   }, [loading, success]);
 
   return (
-    <FormContainer>
-      {loading && <Loader open={loading} />}
-      <form className={classes.root} autoComplete="off">
-        <Typography variant="h5" style={{ marginTop: '25px', textAlign: 'center' }} color="primary">
-          {user && user.name ? `Welcome ${user.name}` : null}
-        </Typography>
-        {submitStatus && <LinearProgress />}
-        {success && <Message severity="success">Profile updated</Message>}
-        <TextField
-          required
-          variant="outlined"
-          id="name"
-          label="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          helperText={
-            name.length > 0 && name.length < 4 ? 'Name  invalid: 4 character atleast' : null
-          }
-        />
-        <TextField
-          required
-          variant="outlined"
-          id="email"
-          label="Email Address"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          helperText={!isValidEmail && email.length > 1 ? 'Invalid email' : null}
-        />
-        <PasswordInput
-          id="password"
-          label="Password"
-          variant="outlined"
-          handleOnChange={setPassword}
-          value={password}
-        />
-        <PasswordInput
-          id="confirmPassword"
-          label="Confirm password"
-          variant="outlined"
-          handleOnChange={setConfirmPassword}
-          value={confirmPassword}
-        />
+    <Grid container>
+      <Grid item xs={12} md>
+        <FormContainer>
+          {loading && <Loader open={loading} />}
+          <form className={classes.root} autoComplete="off">
+            <Typography
+              variant="h5"
+              style={{ marginTop: '25px', textAlign: 'center' }}
+              color="primary"
+            >
+              {user && user.name ? `Welcome ${user.name}` : null}
+            </Typography>
+            {submitStatus && <LinearProgress />}
+            {success && <Message severity="success">Profile updated</Message>}
+            <TextField
+              required
+              variant="outlined"
+              id="name"
+              label="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              helperText={
+                name.length > 0 && name.length < 4 ? 'Name  invalid: 4 character atleast' : null
+              }
+            />
+            <TextField
+              required
+              variant="outlined"
+              id="email"
+              label="Email Address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              helperText={!isValidEmail && email.length > 1 ? 'Invalid email' : null}
+            />
+            <PasswordInput
+              id="password"
+              label="Password"
+              variant="outlined"
+              handleOnChange={setPassword}
+              value={password}
+            />
+            <PasswordInput
+              id="confirmPassword"
+              label="Confirm password"
+              variant="outlined"
+              handleOnChange={setConfirmPassword}
+              value={confirmPassword}
+            />
 
-        {message && <Message severity="error">{message}</Message>}
-        {error && <Message severity="error">{error}</Message>}
-        <Button
-          variant="contained"
-          width="100px"
-          color="primary"
-          onClick={submitHandler}
-          disabled={btnSubmitIsDisabled}
-        >
-          Update
-        </Button>
-      </form>
-    </FormContainer>
+            {message && <Message severity="error">{message}</Message>}
+            {error && <Message severity="error">{error}</Message>}
+            <Button
+              variant="contained"
+              width="100px"
+              color="primary"
+              onClick={submitHandler}
+              disabled={btnSubmitIsDisabled}
+            >
+              Update
+            </Button>
+          </form>
+        </FormContainer>
+      </Grid>
+      <Grid item xs={12} md={7}>
+        <Typography variant="h5" style={{ marginTop: '25px', textAlign: 'center' }} color="primary">
+          My Orders
+        </Typography>
+        {loadingOrders ? (
+          <Loader open={loadingOrders} />
+        ) : errorOrders && errorOrders.length > 0 ? (
+          <Message severity="error">{errorOrders}</Message>
+        ) : (
+          <TableContainer component={Paper} style={{ marginTop: '15px' }}>
+            <Table className={classes.table} size="small" aria-label="my orders table">
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell>ID</StyledTableCell>
+                  <StyledTableCell align="right">DATE</StyledTableCell>
+                  <StyledTableCell align="right">TOTAL</StyledTableCell>
+                  <StyledTableCell align="right">PAID AT</StyledTableCell>
+                  <StyledTableCell align="right">DELIVERED AT</StyledTableCell>
+                  <StyledTableCell></StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {orders.map((order, index) => (
+                  <TableRow key={index}>
+                    <TableCell component="th" scope="row">
+                      {order._id}
+                    </TableCell>
+                    <TableCell align="right">{order.createdAt.substring(0, 10)}</TableCell>
+                    <TableCell align="right">{`${order.totalPrice}€`}</TableCell>
+                    <TableCell align="right">
+                      {order.isPaid ? (
+                        order.paidAt.substring(0, 10)
+                      ) : (
+                        <Tooltip title="Not paid yet" aria-label="not_paid">
+                          <InfoIcon fontSize="small" className={classes.notPaidIcon} />
+                        </Tooltip>
+                      )}
+                    </TableCell>
+                    <TableCell align="right">
+                      {order.isDelivered ? (
+                        order.deliveredAt.substring(0, 10)
+                      ) : (
+                        <Tooltip title="Not delivered yet" aria-label="not_delivered">
+                          <InfoIcon fontSize="small" className={classes.notPaidIcon} />
+                        </Tooltip>
+                      )}
+                    </TableCell>
+                    <TableCell align="right">
+                      <Button
+                        component={NavLink}
+                        to={`/order/${order._id}`}
+                        variant="outlined"
+                        size="small"
+                        color="primary"
+                      >
+                        Details
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
+      </Grid>
+    </Grid>
   );
 };
 

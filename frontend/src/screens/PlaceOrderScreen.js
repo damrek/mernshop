@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  Avatar,
   Box,
   Button,
   Divider,
   Grid,
   List,
   ListItem,
+  ListItemAvatar,
   ListItemText,
   makeStyles,
   Paper,
@@ -78,7 +80,7 @@ const PlaceOrderScreen = ({ history }) => {
         </Typography>
       </Box>
       <Paper elevation={2}>
-        <Grid container alignContent="center" justify="center" alignItems="center">
+        <Grid container alignContent="center" justify="center" alignItems="flex-start">
           <Grid item xs={12} md={4}>
             <Grid container justify="center">
               <List dense={true}>
@@ -106,6 +108,9 @@ const PlaceOrderScreen = ({ history }) => {
                         ) : (
                           cart.cartItems.map((item, index) => (
                             <ListItem key={index}>
+                              <ListItemAvatar>
+                                <Avatar alt={item.name} src={item.image} />
+                              </ListItemAvatar>
                               <ListItemText
                                 primary={`(${index + 1}) ${item.name}`}
                                 secondary={

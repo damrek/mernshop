@@ -3,11 +3,13 @@ import axios from 'axios';
 import { PayPalButton } from 'react-paypal-button-v2';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  Avatar,
   Box,
   Divider,
   Grid,
   List,
   ListItem,
+  ListItemAvatar,
   ListItemText,
   makeStyles,
   Paper,
@@ -17,6 +19,7 @@ import Loader from '../components/Loader';
 import { getOrderDetails, payOrder } from '../actions/orderActions';
 import Message from '../components/Message';
 import { ORDER_PAY_RESET } from '../constants/orderConstants';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -90,7 +93,7 @@ const OrderScreen = ({ match }) => {
         </Typography>
       </Box>
       <Paper elevation={2}>
-        <Grid container alignContent="center" justify="center" alignItems="center">
+        <Grid container alignContent="center" justify="center" alignItems="flex-start">
           <Grid item xs={12} md={4}>
             <Grid container justify="center">
               <List dense={true}>
@@ -102,9 +105,9 @@ const OrderScreen = ({ match }) => {
                         {order.shippingAddress.address} - {order.shippingAddress.city},
                         {order.shippingAddress.postalCode}, {order.shippingAddress.country}
                         {order.isDelivered ? (
-                          <Message variant="success">Delivered on {order.deliveredAt}</Message>
+                          <Message severity="success">Delivered on {order.deliveredAt}</Message>
                         ) : (
-                          <Message variant="danger">Not delivered</Message>
+                          <Message severity="error">Not delivered</Message>
                         )}
                       </span>
                     }
@@ -132,7 +135,7 @@ const OrderScreen = ({ match }) => {
                         {order.isPaid ? (
                           <Message severity="success">Paid on {order.paidAt}</Message>
                         ) : (
-                          <Message severity="danger">Not paid</Message>
+                          <Message severity="error">Not paid</Message>
                         )}
                       </span>
                     }
@@ -149,8 +152,19 @@ const OrderScreen = ({ match }) => {
                         ) : (
                           order.orderItems.map((item, index) => (
                             <ListItem key={index}>
+                              <ListItemAvatar>
+                                <Avatar alt={item.name} src={item.image} />
+                              </ListItemAvatar>
                               <ListItemText
-                                primary={`(${index + 1}) ${item.name}`}
+                                primary={
+                                  <Link
+                                    style={{ textDecoration: 'none' }}
+                                    color="primary"
+                                    to={`/product/${item.product}`}
+                                  >
+                                    {item.name}
+                                  </Link>
+                                }
                                 secondary={
                                   <span>
                                     <p>
@@ -182,16 +196,16 @@ const OrderScreen = ({ match }) => {
                     secondary={
                       <span>
                         <p>
-                          <strong>Items:</strong> {Number(order.itemsPrice).toFixed(2)}€
+                          <strong>Items price:</strong> {Number(order.itemsPrice).toFixed(2)}€
                         </p>
                         <p>
-                          <strong>Shipping:</strong> {order.shippingPrice}€
+                          <strong>Shipping costs:</strong> {order.shippingPrice}€
                         </p>
                         <p>
-                          <strong>Tax:</strong> {order.taxPrice}€
+                          <strong>Tax costs:</strong> {order.taxPrice}€
                         </p>
                         <p>
-                          <strong>Total:</strong> {order.totalPrice}€
+                          <strong>Total price:</strong> {order.totalPrice}€
                         </p>
                       </span>
                     }

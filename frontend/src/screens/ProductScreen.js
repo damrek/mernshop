@@ -42,6 +42,7 @@ const ProductScreen = ({ history, match }) => {
 
   useEffect(() => {
     dispatch(listProductDetails(match.params.id));
+    return () => dispatch({ type: 'PRODUCT_DETAILS_RESET' });
   }, [dispatch, match]);
 
   const addToCartBtnDisabled = product.countInStock === 0;
@@ -62,13 +63,19 @@ const ProductScreen = ({ history, match }) => {
       <div className={classes.root}>
         <Grid container spacing={3} justify="center">
           <Grid item xs={12} md={12} lg={12}>
-            <Button component={NavLink} to="/" variant="outlined" startIcon={<ArrowBackIcon />}>
+            <Button
+              component={NavLink}
+              to="/"
+              variant="outlined"
+              color="primary"
+              startIcon={<ArrowBackIcon />}
+            >
               Go back
             </Button>
           </Grid>
 
           {loading ? (
-            <Loader open={_.isEmpty(product) ? true : false} />
+            <Loader open={_.isEmpty(product.id) ? loading : false} />
           ) : error ? (
             <Message severity="error">{error}</Message>
           ) : (
@@ -94,7 +101,7 @@ const ProductScreen = ({ history, match }) => {
                 <ListItem>
                   <ListItemText primary="Price" secondary={<strong> {product.price} €</strong>} />
                 </ListItem>
-                <Divider variant="fullWidth" />
+                <Divider variant="middle" />
                 {product.countInStock > 0 && (
                   <ListItem>
                     <ListItemText
@@ -121,29 +128,34 @@ const ProductScreen = ({ history, match }) => {
                     />
                   </ListItem>
                 )}
-                <ListItem>
-                  <ListItemText
-                    primary="Status"
-                    secondary={
-                      <span>{product.countInStock > 0 ? 'In Stock' : 'Out Of Stock'}</span>
-                    }
-                  />
-                  <ListItemText
-                    primary={
-                      <span style={{ cursor: 'not-allowed' }}>
-                        <Button
-                          p={4}
-                          variant="outlined"
-                          disabled={addToCartBtnDisabled}
-                          startIcon={<ShoppingBasketIcon />}
-                          onClick={addToCartHandler}
-                        >
-                          Add To Cart
-                        </Button>
-                      </span>
-                    }
-                  />
-                </ListItem>
+                <>
+                  <ListItem>
+                    <ListItemText
+                      primary="Status"
+                      secondary={
+                        <span>{product.countInStock > 0 ? 'In Stock' : 'Out Of Stock'}</span>
+                      }
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemText
+                      primary={
+                        <span style={{ cursor: 'not-allowed' }}>
+                          <Button
+                            p={4}
+                            variant="contained"
+                            color="primary"
+                            disabled={addToCartBtnDisabled}
+                            startIcon={<ShoppingBasketIcon />}
+                            onClick={addToCartHandler}
+                          >
+                            Add To Cart
+                          </Button>
+                        </span>
+                      }
+                    />
+                  </ListItem>
+                </>
               </Grid>
             </>
           )}
