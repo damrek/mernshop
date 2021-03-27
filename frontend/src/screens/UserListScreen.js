@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { listUsers } from '../actions/userActions';
 import {
-  Button,
   Container,
   Grid,
+  IconButton,
   makeStyles,
   Paper,
   Snackbar,
@@ -24,6 +23,7 @@ import {
 import EditIcon from '@material-ui/icons/Edit';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 const useStyles = makeStyles((theme) => ({
@@ -64,17 +64,25 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-const UserListScreen = () => {
+const UserListScreen = ({ history }) => {
   const dispatch = useDispatch();
+  const classes = useStyles();
   const [userCopied, setUserCopied] = useState(null);
   const [openSnack, setOpenSnack] = useState(null);
+
   const userList = useSelector((state) => state.userList);
   const { loading, error, users } = userList;
-  const classes = useStyles();
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
   useEffect(() => {
-    dispatch(listUsers());
-  }, [dispatch]);
+    if (userInfo && userInfo.isAdmin) {
+      dispatch(listUsers());
+    } else {
+      history.push('/login');
+    }
+  }, [dispatch, history, userInfo]);
 
   const showSnackBar = (user) => {
     setUserCopied(user);
@@ -128,17 +136,23 @@ const UserListScreen = () => {
                         <CloseIcon className={classes.noIcon} />
                       )}
                     </TableCell>
-                    <TableCell align="center">
-                      <Button
-                        component={NavLink}
-                        to={`/user/${user._id}/edit`}
-                        variant="outlined"
-                        size="small"
+                    <TableCell align="center" padding="default">
+                      <IconButton
+                        edge="start"
+                        aria-label="edit"
+                        onClick={() => console.log('edit')}
                         color="primary"
-                        startIcon={<EditIcon />}
                       >
-                        Edit
-                      </Button>
+                        <EditIcon />
+                      </IconButton>
+                      <IconButton
+                        edge="end"
+                        aria-label="delete"
+                        onClick={() => console.log('delete')}
+                        className={classes.noIcon}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
                     </TableCell>
                   </StyledTableRow>
                 ))}
