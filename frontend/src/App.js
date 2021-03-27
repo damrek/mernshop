@@ -14,6 +14,7 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import { deepPurple } from '@material-ui/core/colors';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderScreen from './screens/OrderScreen';
+import UserListScreen from './screens/UserListScreen';
 
 const theme = createMuiTheme({
   palette: {
@@ -38,6 +39,7 @@ const App = () => {
           <Route path="/profile" component={ProfileScreen} />
           <Route path="/product/:id" component={ProductScreen} />
           <Route path="/cart/:id?" component={CartScreen} />
+          <Route path="/admin/userlist" component={UserListScreen} />
           <Route path="/" component={HomeScreen} exact />
         </main>
         <Footer />

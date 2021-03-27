@@ -82,6 +82,34 @@ const UserInfoMenu = ({ userInfo }) => {
         >
           Profile
         </MenuItem>
+        {userInfo && userInfo.isAdmin && (
+          <>
+            <MenuItem
+              onClick={handleClose}
+              component={Link}
+              to="/admin/userlist"
+              classes={{ root: classes.menuItemRoot }}
+            >
+              Users
+            </MenuItem>
+            <MenuItem
+              onClick={handleClose}
+              component={Link}
+              to="/admin/productlist"
+              classes={{ root: classes.menuItemRoot }}
+            >
+              Products
+            </MenuItem>
+            <MenuItem
+              onClick={handleClose}
+              component={Link}
+              to="/admin/orderlist"
+              classes={{ root: classes.menuItemRoot }}
+            >
+              Orders
+            </MenuItem>
+          </>
+        )}
         <MenuItem onClick={logoutHandler} classes={{ root: classes.menuItemRoot }}>
           Logout
         </MenuItem>
