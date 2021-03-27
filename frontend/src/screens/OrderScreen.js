@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   Avatar,
   Box,
+  Button,
+  Container,
   Divider,
   Grid,
   List,
@@ -18,8 +20,8 @@ import {
 import Loader from '../components/Loader';
 import { getOrderDetails, payOrder } from '../actions/orderActions';
 import Message from '../components/Message';
-import { ORDER_PAY_RESET } from '../constants/orderConstants';
-import { Link } from 'react-router-dom';
+import { ORDER_DETAILS_RESET, ORDER_PAY_RESET } from '../constants/orderConstants';
+import { Link, withRouter } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const OrderScreen = ({ match }) => {
+const OrderScreen = ({ match, history }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const orderId = match.params.id;
@@ -77,6 +79,12 @@ const OrderScreen = ({ match }) => {
     }
   }, [dispatch, orderId, successPay, order]);
 
+  useEffect(() => {
+    return () => {
+      dispatch({ type: ORDER_DETAILS_RESET });
+    };
+  }, [dispatch]);
+
   const successPaymentHandler = (paymentResult) => {
     dispatch(payOrder(orderId, paymentResult));
   };
@@ -86,11 +94,20 @@ const OrderScreen = ({ match }) => {
   ) : error ? (
     <Message severity="error">{error}</Message>
   ) : (
-    <div className={classes.root}>
+    <Container maxWidth="lg">
       <Box>
-        <Typography variant="h5" style={{ textAlign: 'center' }} color="primary">
-          Order {order._id}
-        </Typography>
+        <span>
+          <Typography
+            variant="subtitle1"
+            style={{ textAlign: 'center', paddingTop: '25px' }}
+            color="primary"
+          >
+            Order: {order._id}
+          </Typography>
+          <Button onClick={() => history.goBack()} variant="outlined" color="primary">
+            Go back
+          </Button>
+        </span>
       </Box>
       <Paper elevation={2}>
         <Grid container alignContent="center" justify="center" alignItems="flex-start">
@@ -235,8 +252,8 @@ const OrderScreen = ({ match }) => {
           </Grid>
         </Grid>
       </Paper>
-    </div>
+    </Container>
   );
 };
 
-export default OrderScreen;
+export default withRouter(OrderScreen);

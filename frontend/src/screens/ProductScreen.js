@@ -14,7 +14,6 @@ import {
 } from '@material-ui/core';
 import { RatingBar } from '../components/RatingBar';
 import _ from 'lodash';
-import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { listProductDetails } from '../actions/productActions';
 import Loader from '../components/Loader';
@@ -64,8 +63,7 @@ const ProductScreen = ({ history, match }) => {
         <Grid container spacing={3} justify="center">
           <Grid item xs={12} md={12} lg={12}>
             <Button
-              component={NavLink}
-              to="/"
+              onClick={() => history.goBack()}
               variant="outlined"
               color="primary"
               startIcon={<ArrowBackIcon />}

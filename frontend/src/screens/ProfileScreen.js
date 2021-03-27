@@ -26,6 +26,7 @@ import PasswordInput from '../components/inputs/PasswordInput';
 import { listMyOrders } from '../actions/orderActions';
 import InfoIcon from '@material-ui/icons/Info';
 import { NavLink } from 'react-router-dom';
+import LocalGroceryStoreIcon from '@material-ui/icons/LocalGroceryStore';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -36,6 +37,14 @@ const StyledTableCell = withStyles((theme) => ({
     fontSize: 14,
   },
 }))(TableCell);
+
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
+    },
+  },
+}))(TableRow);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -178,68 +187,84 @@ const ProfileScreen = ({ location, history }) => {
         </FormContainer>
       </Grid>
       <Grid item xs={12} md={7}>
-        <Typography variant="h5" style={{ marginTop: '25px', textAlign: 'center' }} color="primary">
-          My Orders
-        </Typography>
         {loadingOrders ? (
           <Loader open={loadingOrders} />
         ) : errorOrders && errorOrders.length > 0 ? (
           <Message severity="error">{errorOrders}</Message>
+        ) : orders.length === 0 ? (
+          <Typography
+            variant="subtitle1"
+            style={{ marginTop: '25px', textAlign: 'center' }}
+            color="primary"
+          >
+            Not available orders
+          </Typography>
         ) : (
-          <TableContainer component={Paper} style={{ marginTop: '15px' }}>
-            <Table className={classes.table} size="small" aria-label="my orders table">
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell>ID</StyledTableCell>
-                  <StyledTableCell align="right">DATE</StyledTableCell>
-                  <StyledTableCell align="right">TOTAL</StyledTableCell>
-                  <StyledTableCell align="right">PAID AT</StyledTableCell>
-                  <StyledTableCell align="right">DELIVERED AT</StyledTableCell>
-                  <StyledTableCell></StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {orders.map((order, index) => (
-                  <TableRow key={index}>
-                    <TableCell component="th" scope="row">
-                      {order._id}
-                    </TableCell>
-                    <TableCell align="right">{order.createdAt.substring(0, 10)}</TableCell>
-                    <TableCell align="right">{`${order.totalPrice}€`}</TableCell>
-                    <TableCell align="right">
-                      {order.isPaid ? (
-                        order.paidAt.substring(0, 10)
-                      ) : (
-                        <Tooltip title="Not paid yet" aria-label="not_paid">
-                          <InfoIcon fontSize="small" className={classes.notPaidIcon} />
-                        </Tooltip>
-                      )}
-                    </TableCell>
-                    <TableCell align="right">
-                      {order.isDelivered ? (
-                        order.deliveredAt.substring(0, 10)
-                      ) : (
-                        <Tooltip title="Not delivered yet" aria-label="not_delivered">
-                          <InfoIcon fontSize="small" className={classes.notPaidIcon} />
-                        </Tooltip>
-                      )}
-                    </TableCell>
-                    <TableCell align="right">
-                      <Button
-                        component={NavLink}
-                        to={`/order/${order._id}`}
-                        variant="outlined"
-                        size="small"
-                        color="primary"
-                      >
-                        Details
-                      </Button>
-                    </TableCell>
+          <>
+            <Typography
+              variant="h5"
+              style={{ marginTop: '25px', textAlign: 'center' }}
+              color="primary"
+            >
+              <span>
+                <LocalGroceryStoreIcon fontSize="small" /> My Orders
+              </span>
+            </Typography>
+            <TableContainer component={Paper} style={{ marginTop: '15px' }}>
+              <Table className={classes.table} size="small" aria-label="my orders table">
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell>ID</StyledTableCell>
+                    <StyledTableCell align="right">DATE</StyledTableCell>
+                    <StyledTableCell align="right">TOTAL</StyledTableCell>
+                    <StyledTableCell align="right">PAID AT</StyledTableCell>
+                    <StyledTableCell align="right">DELIVERED AT</StyledTableCell>
+                    <StyledTableCell></StyledTableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                </TableHead>
+                <TableBody>
+                  {orders.map((order, index) => (
+                    <StyledTableRow key={index}>
+                      <TableCell component="th" scope="row">
+                        {order._id}
+                      </TableCell>
+                      <TableCell align="right">{order.createdAt.substring(0, 10)}</TableCell>
+                      <TableCell align="right">{`${order.totalPrice}€`}</TableCell>
+                      <TableCell align="right">
+                        {order.isPaid ? (
+                          order.paidAt.substring(0, 10)
+                        ) : (
+                          <Tooltip title="Not paid yet" aria-label="not_paid">
+                            <InfoIcon fontSize="small" className={classes.notPaidIcon} />
+                          </Tooltip>
+                        )}
+                      </TableCell>
+                      <TableCell align="right">
+                        {order.isDelivered ? (
+                          order.deliveredAt.substring(0, 10)
+                        ) : (
+                          <Tooltip title="Not delivered yet" aria-label="not_delivered">
+                            <InfoIcon fontSize="small" className={classes.notPaidIcon} />
+                          </Tooltip>
+                        )}
+                      </TableCell>
+                      <TableCell align="right">
+                        <Button
+                          component={NavLink}
+                          to={`/order/${order._id}`}
+                          variant="outlined"
+                          size="small"
+                          color="primary"
+                        >
+                          Details
+                        </Button>
+                      </TableCell>
+                    </StyledTableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </>
         )}
       </Grid>
     </Grid>
