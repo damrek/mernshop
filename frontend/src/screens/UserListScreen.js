@@ -2,14 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import { listUsers } from '../actions/userActions';
+import { deleteUser, listUsers } from '../actions/userActions';
 import {
   Container,
   Grid,
   IconButton,
   makeStyles,
   Paper,
-  Snackbar,
   Table,
   TableBody,
   TableCell,
@@ -25,6 +24,7 @@ import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import SnackBarMsg from '../components/SnackBarMsg';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -67,8 +67,7 @@ const StyledTableRow = withStyles((theme) => ({
 const UserListScreen = ({ history }) => {
   const dispatch = useDispatch();
   const classes = useStyles();
-  const [userCopied, setUserCopied] = useState(null);
-  const [openSnack, setOpenSnack] = useState(null);
+  const [snackbarMsg, setSnackbarMsg] = useState(null);
 
   const userList = useSelector((state) => state.userList);
   const { loading, error, users } = userList;
@@ -76,24 +75,22 @@ const UserListScreen = ({ history }) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
+  const userDelete = useSelector((state) => state.userDelete);
+  const { success: successDelete } = userDelete;
+
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
       dispatch(listUsers());
     } else {
       history.push('/login');
     }
-  }, [dispatch, history, userInfo]);
+  }, [dispatch, history, userInfo, successDelete]);
 
-  const showSnackBar = (user) => {
-    setUserCopied(user);
-    setOpenSnack(true);
-  };
-
-  const handleSnackBar = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
+  const handleDelete = (id) => {
+    if (window.confirm('Are you sure')) {
+      setSnackbarMsg(`User with id: ${id} deleted successfully!`);
+      dispatch(deleteUser(id));
     }
-    setOpenSnack(false);
   };
 
   return (
@@ -119,10 +116,13 @@ const UserListScreen = ({ history }) => {
               <TableBody>
                 {users.map((user) => (
                   <StyledTableRow key={user._id}>
-                    <TableCell align="center" component="th" scope="row" className={classes.idCopy}>
-                      <CopyToClipboard onCopy={() => showSnackBar(user)} text={user._id}>
+                    <TableCell align="center" component="th" scope="row">
+                      <CopyToClipboard
+                        onCopy={() => setSnackbarMsg(`Copied ${user._id} successfully!`)}
+                        text={user._id}
+                      >
                         <Tooltip title="Copy id" aria-label="not_paid">
-                          <span>{user._id}</span>
+                          <span className={classes.idCopy}>{user._id}</span>
                         </Tooltip>
                       </CopyToClipboard>
                     </TableCell>
@@ -148,7 +148,7 @@ const UserListScreen = ({ history }) => {
                       <IconButton
                         edge="end"
                         aria-label="delete"
-                        onClick={() => console.log('delete')}
+                        onClick={() => handleDelete(user._id)}
                         className={classes.noIcon}
                       >
                         <DeleteIcon />
@@ -161,16 +161,7 @@ const UserListScreen = ({ history }) => {
           </TableContainer>
         )}
       </Grid>
-      {openSnack && (
-        <Snackbar
-          onClose={handleSnackBar}
-          autoHideDuration={2000}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-          open={openSnack}
-          message={`${userCopied._id} copied successfully!`}
-          key={userCopied._id}
-        />
-      )}
+      <SnackBarMsg message={snackbarMsg} handleCleanMsg={() => setSnackbarMsg(null)} />
     </Container>
   );
 };
