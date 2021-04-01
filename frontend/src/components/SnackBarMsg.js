@@ -2,7 +2,7 @@ import { Snackbar } from '@material-ui/core';
 import { uniqueId } from 'lodash';
 import React, { useEffect, useState } from 'react';
 
-const SnackBarMsg = ({ message, handleCleanMsg }) => {
+const SnackBarMsg = React.memo(({ message, handleCleanMsg }) => {
   const [openSnack, setOpenSnack] = useState(false);
 
   const handleClose = (event, reason) => {
@@ -17,7 +17,7 @@ const SnackBarMsg = ({ message, handleCleanMsg }) => {
     if (message !== null) {
       setOpenSnack(true);
     }
-  }, [message, setOpenSnack]);
+  }, [message]);
 
   return openSnack ? (
     <Snackbar
@@ -29,6 +29,6 @@ const SnackBarMsg = ({ message, handleCleanMsg }) => {
       key={uniqueId()}
     />
   ) : null;
-};
+});
 
 export default SnackBarMsg;

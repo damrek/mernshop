@@ -19,12 +19,12 @@ import {
   Typography,
   withStyles,
 } from '@material-ui/core';
-import EditIcon from '@material-ui/icons/Edit';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import SnackBarMsg from '../components/SnackBarMsg';
+import EditUserDialog from '../components/dialogs/EditUserDialog';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -137,22 +137,21 @@ const UserListScreen = ({ history }) => {
                       )}
                     </TableCell>
                     <TableCell align="center" padding="default">
-                      <IconButton
-                        edge="start"
-                        aria-label="edit"
-                        onClick={() => console.log('edit')}
-                        color="primary"
-                      >
-                        <EditIcon />
-                      </IconButton>
-                      <IconButton
-                        edge="end"
-                        aria-label="delete"
-                        onClick={() => handleDelete(user._id)}
-                        className={classes.noIcon}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
+                      <div style={{ display: 'flex' }}>
+                        <EditUserDialog
+                          userId={user._id}
+                          message={setSnackbarMsg}
+                          handleCleanMsg={() => setSnackbarMsg(null)}
+                        />
+                        <IconButton
+                          edge="end"
+                          aria-label="delete"
+                          onClick={() => handleDelete(user._id)}
+                          className={classes.noIcon}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </div>
                     </TableCell>
                   </StyledTableRow>
                 ))}
