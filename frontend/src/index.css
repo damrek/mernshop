@@ -1,14 +1,23 @@
-body {
+html,
+body,
+#root {
+  height: 100%;
   margin: 0;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+
   font-family: -apple-system, BlinkMacSystemFont, 'Roboto';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Roboto';
+main {
+  flex: 1;
 }
 
-main {
-  min-height: 80vh;
+footer {
+  margin-bottom: 2vh;
 }
