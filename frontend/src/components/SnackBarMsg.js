@@ -1,25 +1,35 @@
 import { Snackbar } from '@material-ui/core';
-import { uniqueId } from 'lodash';
+import { isEmpty, uniqueId } from 'lodash';
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { resetSnackBarMsg } from '../actions/snackbarActions';
 
-const SnackBarMsg = React.memo(({ message, handleCleanMsg }) => {
+const SnackBarMsg = () => {
+  const dispatch = useDispatch();
   const [openSnack, setOpenSnack] = useState(false);
+
+  const snackbar = useSelector((state) => state.snackBar);
+  const { message } = snackbar;
+
+  const userList = useSelector((state) => state.userList);
+  const { loading } = userList;
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
-    setOpenSnack(false);
-    handleCleanMsg();
+    dispatch(resetSnackBarMsg());
   };
 
   useEffect(() => {
-    if (message !== null) {
+    if (!isEmpty(message)) {
       setOpenSnack(true);
+    } else {
+      setOpenSnack(false);
     }
-  }, [message]);
+  }, [message, openSnack]);
 
-  return openSnack ? (
+  return !isEmpty(message) && openSnack && !loading ? (
     <Snackbar
       onClose={handleClose}
       autoHideDuration={3000}
@@ -29,6 +39,6 @@ const SnackBarMsg = React.memo(({ message, handleCleanMsg }) => {
       key={uniqueId()}
     />
   ) : null;
-});
+};
 
 export default SnackBarMsg;

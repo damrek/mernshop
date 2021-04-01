@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
@@ -25,6 +25,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import SnackBarMsg from '../components/SnackBarMsg';
 import EditUserDialog from '../components/dialogs/EditUserDialog';
+import { addSnackBarMsg } from '../actions/snackbarActions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -67,7 +68,6 @@ const StyledTableRow = withStyles((theme) => ({
 const UserListScreen = ({ history }) => {
   const dispatch = useDispatch();
   const classes = useStyles();
-  const [snackbarMsg, setSnackbarMsg] = useState(null);
 
   const userList = useSelector((state) => state.userList);
   const { loading, error, users } = userList;
@@ -87,8 +87,7 @@ const UserListScreen = ({ history }) => {
   }, [dispatch, history, userInfo, successDelete]);
 
   const handleDelete = (id) => {
-    if (window.confirm('Are you sure')) {
-      setSnackbarMsg(`User with id: ${id} deleted successfully!`);
+    if (window.confirm('Are you sure?')) {
       dispatch(deleteUser(id));
     }
   };
@@ -118,7 +117,7 @@ const UserListScreen = ({ history }) => {
                   <StyledTableRow key={user._id}>
                     <TableCell align="center" component="th" scope="row">
                       <CopyToClipboard
-                        onCopy={() => setSnackbarMsg(`Copied ${user._id} successfully!`)}
+                        onCopy={() => dispatch(addSnackBarMsg(`Copied ${user._id} successfully!`))}
                         text={user._id}
                       >
                         <Tooltip title="Copy id" aria-label="not_paid">
@@ -138,11 +137,7 @@ const UserListScreen = ({ history }) => {
                     </TableCell>
                     <TableCell align="center" padding="default">
                       <div style={{ display: 'flex' }}>
-                        <EditUserDialog
-                          userId={user._id}
-                          message={setSnackbarMsg}
-                          handleCleanMsg={() => setSnackbarMsg(null)}
-                        />
+                        <EditUserDialog userId={user._id} />
                         <IconButton
                           edge="end"
                           aria-label="delete"
@@ -160,7 +155,7 @@ const UserListScreen = ({ history }) => {
           </TableContainer>
         )}
       </Grid>
-      <SnackBarMsg message={snackbarMsg} handleCleanMsg={() => setSnackbarMsg(null)} />
+      <SnackBarMsg />
     </Container>
   );
 };

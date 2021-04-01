@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { ORDER_LIST_MY_RESET } from '../constants/orderConstants';
+import { ADD_SNACKBAR } from '../constants/snackbarConstants';
 import {
   USER_DELETE_FAIL,
   USER_DELETE_REQUEST,
@@ -227,6 +228,7 @@ export const deleteUser = (id) => async (dispatch, getState) => {
     await axios.delete(`/api/users/${id}`, config);
 
     dispatch({ type: USER_DELETE_SUCCESS });
+    dispatch({ type: ADD_SNACKBAR, payload: 'User deleted successfully!' });
   } catch (error) {
     dispatch({
       type: USER_DELETE_FAIL,

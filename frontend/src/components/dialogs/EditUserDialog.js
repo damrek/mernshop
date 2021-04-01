@@ -19,6 +19,7 @@ import Loader from '../Loader';
 import { getUserDetails, listUsers, updateUser } from '../../actions/userActions';
 import Message from '../Message';
 import { USER_DETAILS_RESET, USER_UPDATE_RESET } from '../../constants/userConstants';
+import { addSnackBarMsg } from '../../actions/snackbarActions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FormDialog = ({ userId, handleClose, message }) => {
+const FormDialog = ({ userId, handleClose }) => {
   const dispatch = useDispatch();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -54,7 +55,7 @@ const FormDialog = ({ userId, handleClose, message }) => {
 
   useEffect(() => {
     if (successUpdate) {
-      message('User updated succesfully!');
+      dispatch(addSnackBarMsg(`User updated succesfully!`));
       dispatch({ type: USER_UPDATE_RESET });
       dispatch({ type: USER_DETAILS_RESET });
       dispatch(listUsers());
@@ -67,7 +68,7 @@ const FormDialog = ({ userId, handleClose, message }) => {
         setIsAdmin(user.isAdmin);
       }
     }
-  }, [dispatch, user, userId, successUpdate, message]);
+  }, [dispatch, user, userId, successUpdate]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -134,7 +135,7 @@ const FormDialog = ({ userId, handleClose, message }) => {
   );
 };
 
-const EditUserDialog = React.memo(({ userId, message }) => {
+const EditUserDialog = React.memo(({ userId }) => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -149,7 +150,7 @@ const EditUserDialog = React.memo(({ userId, message }) => {
       <IconButton edge="start" aria-label="edit" onClick={handleClickOpen} color="primary">
         <EditIcon />
       </IconButton>
-      {open && <FormDialog userId={userId} handleClose={handleClose} message={message} />}
+      {open && <FormDialog userId={userId} handleClose={handleClose} />}
     </>
   );
 });
