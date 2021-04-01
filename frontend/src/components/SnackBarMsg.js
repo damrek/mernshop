@@ -11,9 +11,6 @@ const SnackBarMsg = () => {
   const snackbar = useSelector((state) => state.snackBar);
   const { message } = snackbar;
 
-  const userList = useSelector((state) => state.userList);
-  const { loading } = userList;
-
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -29,7 +26,7 @@ const SnackBarMsg = () => {
     }
   }, [message, openSnack]);
 
-  return !isEmpty(message) && openSnack && !loading ? (
+  return !isEmpty(message) && openSnack ? (
     <Snackbar
       onClose={handleClose}
       autoHideDuration={3000}

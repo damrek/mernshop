@@ -155,7 +155,7 @@ const UserListScreen = ({ history }) => {
           </TableContainer>
         )}
       </Grid>
-      <SnackBarMsg />
+      {!loading && <SnackBarMsg />}
     </Container>
   );
 };
