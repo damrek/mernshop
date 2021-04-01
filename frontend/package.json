@@ -29,7 +29,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint-fix": "eslint . --ext .js --fix"
   },
   "husky": {
     "hooks": {
@@ -38,22 +39,32 @@
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
-      "prettier --write"
+      "prettier --write",
+      "eslint --fix"
     ],
     "*.js": [
       "./node_modules/.bin/eslint "
     ]
   },
   "eslintConfig": {
+    "plugins": [
+      "simple-import-sort"
+    ],
     "extends": [
       "react-app",
       "react-app/jest"
     ],
     "rules": {
       "no-unused-vars": "error",
-      "react-hooks/exhaustive-deps": "error"
+      "react-hooks/exhaustive-deps": "error",
+      "simple-import-sort/imports": "warn",
+      "simple-import-sort/exports": "warn"
     }
   },
+  "eslintIgnore": [
+    "node_modules",
+    "build/*"
+  ],
   "browserslist": {
     "production": [
       ">0.2%",
@@ -68,6 +79,7 @@
   },
   "devDependencies": {
     "eslint": "^7.14.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
     "husky": "^4.3.0",
     "lint-staged": "^10.5.2",
     "prettier": "^2.2.1"
