@@ -1,7 +1,3 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { PayPalButton } from 'react-paypal-button-v2';
-import { useDispatch, useSelector } from 'react-redux';
 import {
   Avatar,
   Box,
@@ -17,11 +13,16 @@ import {
   Paper,
   Typography,
 } from '@material-ui/core';
-import Loader from '../components/Loader';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { PayPalButton } from 'react-paypal-button-v2';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, withRouter } from 'react-router-dom';
+
 import { getOrderDetails, payOrder } from '../actions/orderActions';
+import Loader from '../components/Loader';
 import Message from '../components/Message';
 import { ORDER_DETAILS_RESET, ORDER_PAY_RESET } from '../constants/orderConstants';
-import { Link, withRouter } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {

@@ -1,8 +1,3 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import Message from '../components/Message';
-import Loader from '../components/Loader';
-import { deleteUser, listUsers } from '../actions/userActions';
 import {
   Container,
   Grid,
@@ -22,10 +17,16 @@ import {
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
+import React, { useEffect } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import SnackBarMsg from '../components/SnackBarMsg';
-import EditUserDialog from '../components/dialogs/EditUserDialog';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { addSnackBarMsg } from '../actions/snackbarActions';
+import { deleteUser, listUsers } from '../actions/userActions';
+import EditUserDialog from '../components/dialogs/EditUserDialog';
+import Loader from '../components/Loader';
+import Message from '../components/Message';
+import SnackBarMsg from '../components/SnackBarMsg';
 
 const useStyles = makeStyles((theme) => ({
   root: {

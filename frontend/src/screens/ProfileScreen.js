@@ -1,9 +1,3 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import Message from '../components/Message';
-import Loader from '../components/Loader';
-import { getUserDetails, updateUserProfile } from '../actions/userActions';
-import FormContainer from '../components/FormContainer';
 import {
   Button,
   Grid,
@@ -21,12 +15,19 @@ import {
   Typography,
   withStyles,
 } from '@material-ui/core';
-import isEmail from '../utils/validations/isEmail';
-import PasswordInput from '../components/inputs/PasswordInput';
-import { listMyOrders } from '../actions/orderActions';
 import InfoIcon from '@material-ui/icons/Info';
-import { NavLink } from 'react-router-dom';
 import LocalGroceryStoreIcon from '@material-ui/icons/LocalGroceryStore';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
+
+import { listMyOrders } from '../actions/orderActions';
+import { getUserDetails, updateUserProfile } from '../actions/userActions';
+import FormContainer from '../components/FormContainer';
+import PasswordInput from '../components/inputs/PasswordInput';
+import Loader from '../components/Loader';
+import Message from '../components/Message';
+import isEmail from '../utils/validations/isEmail';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {

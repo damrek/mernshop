@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { listProducts } from '../actions/productActions';
-import Product from '../components/Product';
 import { Grid, Typography } from '@material-ui/core';
 import _ from 'lodash';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { listProducts } from '../actions/productActions';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import Product from '../components/Product';
 
 const HomeScreen = () => {
   const dispatch = useDispatch();

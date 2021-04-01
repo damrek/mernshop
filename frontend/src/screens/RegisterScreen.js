@@ -1,13 +1,14 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { Button, Grid, makeStyles, TextField, Typography } from '@material-ui/core';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Message from '../components/Message';
-import Loader from '../components/Loader';
+import { Link } from 'react-router-dom';
+
 import { register } from '../actions/userActions';
 import FormContainer from '../components/FormContainer';
-import { Button, Grid, makeStyles, TextField, Typography } from '@material-ui/core';
-import isEmail from '../utils/validations/isEmail';
 import PasswordInput from '../components/inputs/PasswordInput';
+import Loader from '../components/Loader';
+import Message from '../components/Message';
+import isEmail from '../utils/validations/isEmail';
 
 const useStyles = makeStyles((theme) => ({
   root: {

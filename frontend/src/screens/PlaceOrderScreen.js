@@ -1,5 +1,3 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import {
   Avatar,
   Box,
@@ -15,8 +13,11 @@ import {
   Typography,
 } from '@material-ui/core';
 import DescriptionIcon from '@material-ui/icons/Description';
-import CheckoutSteps from '../components/CheckoutSteps';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { createOrder } from '../actions/orderActions';
+import CheckoutSteps from '../components/CheckoutSteps';
 import Message from '../components/Message';
 
 const useStyles = makeStyles((theme) => ({

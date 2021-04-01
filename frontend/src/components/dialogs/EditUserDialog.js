@@ -11,15 +11,16 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
-import EditIcon from '@material-ui/icons/Edit';
 import CloseIcon from '@material-ui/icons/Close';
+import EditIcon from '@material-ui/icons/Edit';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Loader from '../Loader';
-import { getUserDetails, listUsers, updateUser } from '../../actions/userActions';
-import Message from '../Message';
-import { USER_DETAILS_RESET, USER_UPDATE_RESET } from '../../constants/userConstants';
+
 import { addSnackBarMsg } from '../../actions/snackbarActions';
+import { getUserDetails, listUsers, updateUser } from '../../actions/userActions';
+import { USER_DETAILS_RESET, USER_UPDATE_RESET } from '../../constants/userConstants';
+import Loader from '../Loader';
+import Message from '../Message';
 
 const useStyles = makeStyles((theme) => ({
   root: {

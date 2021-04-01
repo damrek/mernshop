@@ -14,14 +14,15 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import React, { useEffect } from 'react';
+import NumberFormat from 'react-number-format';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+
 import { addToCart, removeFromCart } from '../actions/cartActions';
 import Message from '../components/Message';
-import DeleteIcon from '@material-ui/icons/Delete';
-import NumberFormat from 'react-number-format';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
 const useStyles = makeStyles((theme) => ({
   root: {

@@ -1,9 +1,10 @@
 import { Button, makeStyles, Menu, MenuItem } from '@material-ui/core';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+
 import { logout } from '../actions/userActions';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 const useStyles = makeStyles((theme) => ({
   menuPaper: {

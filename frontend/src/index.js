@@ -1,12 +1,14 @@
+import './index.css';
+
+import { createMuiTheme } from '@material-ui/core';
+import { deepPurple } from '@material-ui/core/colors';
+import { ThemeProvider } from '@material-ui/styles';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import store from './store';
-import './index.css';
+
 import App from './App';
-import { ThemeProvider } from '@material-ui/styles';
-import { createMuiTheme } from '@material-ui/core';
-import { deepPurple } from '@material-ui/core/colors';
+import store from './store';
 
 const theme = createMuiTheme({
   palette: {

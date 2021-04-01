@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import {
   Button,
   Divider,
@@ -12,14 +11,16 @@ import {
   MenuItem,
   Select,
 } from '@material-ui/core';
-import { RatingBar } from '../components/RatingBar';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import _ from 'lodash';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { listProductDetails } from '../actions/productActions';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
-import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import { RatingBar } from '../components/RatingBar';
 
 const useStyles = makeStyles(() => ({
   root: {
