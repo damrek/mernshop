@@ -230,24 +230,26 @@ const OrderScreen = ({ match, history }) => {
                     classes={{ primary: classes.primaryListItemText }}
                   />
                 </ListItem>
-                <ListItem>
-                  <ListItemText
-                    primary={
-                      <span>
-                        {!order.isPaid && loadingPay && <Loader open={loadingPay} />}
-                        {!sdkReady ? (
-                          <Loader open={sdkReady} />
-                        ) : (
-                          <PayPalButton
-                            amount={order.totalPrice}
-                            onSuccess={successPaymentHandler}
-                          />
-                        )}
-                      </span>
-                    }
-                    classes={{ primary: classes.primaryListItemText }}
-                  />
-                </ListItem>
+                {!order.isPaid && loadingPay && <Loader open={loadingPay} />}
+                {!order.isPaid && (
+                  <ListItem>
+                    <ListItemText
+                      primary={
+                        <span>
+                          {!sdkReady ? (
+                            <Loader open={sdkReady} />
+                          ) : (
+                            <PayPalButton
+                              amount={order.totalPrice}
+                              onSuccess={successPaymentHandler}
+                            />
+                          )}
+                        </span>
+                      }
+                      classes={{ primary: classes.primaryListItemText }}
+                    />
+                  </ListItem>
+                )}
               </List>
             </Grid>
           </Grid>
