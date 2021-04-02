@@ -9,7 +9,11 @@ import {
   orderListMyReducer,
   orderPayReducer,
 } from './reducers/orderReducers';
-import { productDetailsReducer, productListReducer } from './reducers/productReducers';
+import {
+  productDeleteReducer,
+  productDetailsReducer,
+  productListReducer,
+} from './reducers/productReducers';
 import { snackBarReducer } from './reducers/snackbarReducers';
 import {
   userDeleteReducer,
@@ -36,6 +40,7 @@ const reducer = combineReducers({
   orderDetails: orderDetailsReducer,
   orderPay: orderPayReducer,
   orderListMy: orderListMyReducer,
+  productDelete: productDeleteReducer,
   snackBar: snackBarReducer,
 });
 

@@ -21,8 +21,9 @@ import React, { useEffect } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { listProducts } from '../actions/productActions';
+import { deleteProduct, listProducts } from '../actions/productActions';
 import { addSnackBarMsg } from '../actions/snackbarActions';
+import EditProductDialog from '../components/dialogs/EditProductDialog';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import SnackBarMsg from '../components/SnackBarMsg';
@@ -75,6 +76,9 @@ const ProductListScreen = ({ history, match }) => {
   const productList = useSelector((state) => state.productList);
   const { loading, error, products } = productList;
 
+  const productDelete = useSelector((state) => state.productDelete);
+  const { loading: loadingDelete, error: errorDelete, success: successDelete } = productDelete;
+
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
@@ -84,11 +88,11 @@ const ProductListScreen = ({ history, match }) => {
     } else {
       history.push('/login');
     }
-  }, [dispatch, history, userInfo]);
+  }, [dispatch, history, userInfo, successDelete]);
 
   const handleDelete = (id) => {
     if (window.confirm('Are you sure?')) {
-      // DELETE PRODUCTS
+      dispatch(deleteProduct(id));
     }
   };
 
@@ -108,7 +112,8 @@ const ProductListScreen = ({ history, match }) => {
         >
           Create product
         </Button>
-
+        {loadingDelete && <Loader open={loadingDelete} />}
+        {errorDelete && <Message severity="error">{errorDelete}</Message>}
         {loading && <Loader open={loading} />}
         {error && <Message severity="error">{error}</Message>}
         {products && products.length > 0 && (
@@ -146,6 +151,7 @@ const ProductListScreen = ({ history, match }) => {
                     <TableCell align="center">{product.brand}</TableCell>
                     <TableCell align="center" padding="default">
                       <div style={{ display: 'flex' }}>
+                        <EditProductDialog productId={product._id} />
                         <IconButton
                           edge="end"
                           aria-label="delete"
