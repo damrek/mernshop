@@ -21,12 +21,13 @@ import React, { useEffect } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { deleteProduct, listProducts } from '../actions/productActions';
+import { createProduct, deleteProduct, listProducts } from '../actions/productActions';
 import { addSnackBarMsg } from '../actions/snackbarActions';
 import EditProductDialog from '../components/dialogs/EditProductDialog';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import SnackBarMsg from '../components/SnackBarMsg';
+import { PRODUCT_CREATE_RESET } from '../constants/productConstants';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -79,16 +80,20 @@ const ProductListScreen = ({ history, match }) => {
   const productDelete = useSelector((state) => state.productDelete);
   const { loading: loadingDelete, error: errorDelete, success: successDelete } = productDelete;
 
+  const productCreate = useSelector((state) => state.productCreate);
+  const { loading: loadingCreate, error: errorCreate, success: successCreate } = productCreate;
+
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
   useEffect(() => {
-    if (userInfo && userInfo.isAdmin) {
-      dispatch(listProducts());
-    } else {
+    if (!userInfo || !userInfo.isAdmin) {
       history.push('/login');
+    } else if (successCreate || userInfo.isAdmin) {
+      dispatch({ type: PRODUCT_CREATE_RESET });
+      dispatch(listProducts());
     }
-  }, [dispatch, history, userInfo, successDelete]);
+  }, [dispatch, history, userInfo, successDelete, successCreate]);
 
   const handleDelete = (id) => {
     if (window.confirm('Are you sure?')) {
@@ -96,7 +101,9 @@ const ProductListScreen = ({ history, match }) => {
     }
   };
 
-  const createProductHandler = () => {};
+  const createProductHandler = () => {
+    dispatch(createProduct());
+  };
 
   return (
     <Container maxWidth="md">
@@ -114,6 +121,8 @@ const ProductListScreen = ({ history, match }) => {
         </Button>
         {loadingDelete && <Loader open={loadingDelete} />}
         {errorDelete && <Message severity="error">{errorDelete}</Message>}
+        {loadingCreate && <Loader open={loadingCreate} />}
+        {errorCreate && <Message severity="error">{errorCreate}</Message>}
         {loading && <Loader open={loading} />}
         {error && <Message severity="error">{error}</Message>}
         {products && products.length > 0 && (
