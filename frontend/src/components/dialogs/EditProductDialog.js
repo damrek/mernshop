@@ -5,12 +5,14 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
+  Input,
   makeStyles,
   TextField,
   Typography,
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import EditIcon from '@material-ui/icons/Edit';
+import Axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import NumberFormat from 'react-number-format';
 import { useDispatch, useSelector } from 'react-redux';
@@ -48,6 +50,8 @@ const FormDialog = ({ productId, handleClose }) => {
   const [category, setCategory] = useState('');
   const [countInStock, setCountInStock] = useState(0);
   const [description, setDescription] = useState('');
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState('');
 
   const classes = useStyles();
 
@@ -91,6 +95,31 @@ const FormDialog = ({ productId, handleClose }) => {
         description,
       })
     );
+  };
+
+  const uploadFileHandler = async (e) => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append('image', file);
+    setUploading(true);
+
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      };
+
+      const { data } = await Axios.post('/api/upload', formData, config);
+
+      setImage(data);
+      setUploading(false);
+    } catch (error) {
+      console.error(error);
+      setUploading(false);
+      debugger;
+      setUploadError('Error uploading file');
+    }
   };
 
   return (
@@ -141,6 +170,18 @@ const FormDialog = ({ productId, handleClose }) => {
             onChange={(e) => setImage(e.target.value)}
             multiline
           />
+          <Input
+            id="image-file"
+            onChange={uploadFileHandler}
+            type="file"
+            placeholder="Ssas"
+          ></Input>
+          {uploadError && (
+            <Typography variant="caption" color="error">
+              {uploadError}
+            </Typography>
+          )}
+          {uploading && <Loader open={uploading} />}
           <NumberFormat
             label="Price €"
             value={price}
