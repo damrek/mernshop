@@ -127,7 +127,7 @@ const ProductListScreen = ({ history, match }) => {
         {error && <Message severity="error">{error}</Message>}
         {products && products.length > 0 && (
           <TableContainer component={Paper} style={{ marginTop: '15px' }}>
-            <Table className={classes.table} size="small" aria-label="my orders table">
+            <Table className={classes.table} size="small" aria-label="my products table">
               <TableHead>
                 <TableRow>
                   <StyledTableCell align="center">ID</StyledTableCell>

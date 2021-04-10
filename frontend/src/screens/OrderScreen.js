@@ -19,10 +19,14 @@ import { PayPalButton } from 'react-paypal-button-v2';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 
-import { getOrderDetails, payOrder } from '../actions/orderActions';
+import { deliverOrder, getOrderDetails, payOrder } from '../actions/orderActions';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
-import { ORDER_DETAILS_RESET, ORDER_PAY_RESET } from '../constants/orderConstants';
+import {
+  ORDER_DELIVER_RESET,
+  ORDER_DETAILS_RESET,
+  ORDER_PAY_RESET,
+} from '../constants/orderConstants';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,6 +55,12 @@ const OrderScreen = ({ match, history }) => {
   const orderPay = useSelector((state) => state.orderPay);
   const { loading: loadingPay, success: successPay } = orderPay;
 
+  const orderDeliver = useSelector((state) => state.orderDeliver);
+  const { loading: loadingDeliver, success: successDeliver } = orderDeliver;
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
   if (!loading && !error) {
     order.itemsPrice = order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0);
   }
@@ -68,8 +78,9 @@ const OrderScreen = ({ match, history }) => {
       document.body.appendChild(script);
     };
 
-    if (!order || successPay) {
+    if (!order || successPay || successDeliver) {
       dispatch({ type: ORDER_PAY_RESET });
+      dispatch({ type: ORDER_DELIVER_RESET });
       dispatch(getOrderDetails(orderId));
     } else if (!order.isPaid) {
       if (!window.paypal) {
@@ -78,7 +89,7 @@ const OrderScreen = ({ match, history }) => {
         setSdkReady(true);
       }
     }
-  }, [dispatch, orderId, successPay, order]);
+  }, [dispatch, orderId, successPay, successDeliver, order]);
 
   useEffect(() => {
     return () => {
@@ -88,6 +99,10 @@ const OrderScreen = ({ match, history }) => {
 
   const successPaymentHandler = (paymentResult) => {
     dispatch(payOrder(orderId, paymentResult));
+  };
+
+  const deliverHandler = (params) => {
+    dispatch(deliverOrder(order));
   };
 
   return loading ? (
@@ -249,6 +264,12 @@ const OrderScreen = ({ match, history }) => {
                       classes={{ primary: classes.primaryListItemText }}
                     />
                   </ListItem>
+                )}
+                {loadingDeliver && <Loader open={loadingDeliver} />}
+                {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+                  <Button variant="contained" size="small" color="primary" onClick={deliverHandler}>
+                    Mark as delivered
+                  </Button>
                 )}
               </List>
             </Grid>

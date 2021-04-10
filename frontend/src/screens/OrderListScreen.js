@@ -1,7 +1,7 @@
 import {
+  Button,
   Container,
   Grid,
-  IconButton,
   makeStyles,
   Paper,
   Table,
@@ -14,16 +14,14 @@ import {
   Typography,
   withStyles,
 } from '@material-ui/core';
-import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
-import DeleteIcon from '@material-ui/icons/Delete';
 import React, { useEffect } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { useDispatch, useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 
+import { listOrders } from '../actions/orderActions';
 import { addSnackBarMsg } from '../actions/snackbarActions';
-import { deleteUser, listUsers } from '../actions/userActions';
-import EditUserDialog from '../components/dialogs/EditUserDialog';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import SnackBarMsg from '../components/SnackBarMsg';
@@ -66,12 +64,12 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-const UserListScreen = ({ history }) => {
+const OrderListScreen = ({ history }) => {
   const dispatch = useDispatch();
   const classes = useStyles();
 
-  const userList = useSelector((state) => state.userList);
-  const { loading, error, users } = userList;
+  const orderList = useSelector((state) => state.orderList);
+  const { loading, error, orders } = orderList;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -81,73 +79,75 @@ const UserListScreen = ({ history }) => {
 
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
-      dispatch(listUsers());
+      dispatch(listOrders());
     } else {
       history.push('/login');
     }
   }, [dispatch, history, userInfo, successDelete]);
 
-  const handleDelete = (id) => {
-    if (window.confirm('Are you sure?')) {
-      dispatch(deleteUser(id));
-    }
-  };
-
   return (
     <Container maxWidth="md">
       <Grid item xs={12}>
         <Typography variant="h5" style={{ marginTop: '25px', textAlign: 'center' }} color="primary">
-          Users
+          Orders
         </Typography>
         {loading && <Loader open={loading} />}
         {error && <Message severity="error">{error}</Message>}
-        {users && users.length > 0 && (
+        {orders && orders.length > 0 && (
           <TableContainer component={Paper} style={{ marginTop: '15px' }}>
-            <Table className={classes.table} size="small" aria-label="my users table">
+            <Table className={classes.table} size="small" aria-label="my orders table">
               <TableHead>
                 <TableRow>
                   <StyledTableCell align="center">ID</StyledTableCell>
-                  <StyledTableCell align="center">NAME</StyledTableCell>
-                  <StyledTableCell align="center">EMAIL</StyledTableCell>
-                  <StyledTableCell align="center">ADMIN</StyledTableCell>
-                  <StyledTableCell align="center">ACTION</StyledTableCell>
+                  <StyledTableCell align="center">USER</StyledTableCell>
+                  <StyledTableCell align="center">DATE</StyledTableCell>
+                  <StyledTableCell align="center">TOTAL</StyledTableCell>
+                  <StyledTableCell align="center">PAID</StyledTableCell>
+                  <StyledTableCell align="center">DELIVERED</StyledTableCell>
+                  <StyledTableCell align="center"></StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {users.map((user) => (
-                  <StyledTableRow key={user._id}>
+                {orders.map((order) => (
+                  <StyledTableRow key={order._id}>
                     <TableCell align="center" component="th" scope="row">
                       <CopyToClipboard
-                        onCopy={() => dispatch(addSnackBarMsg(`Copied ${user._id} successfully!`))}
-                        text={user._id}
+                        onCopy={() => dispatch(addSnackBarMsg(`Copied ${order._id} successfully!`))}
+                        text={order._id}
                       >
                         <Tooltip title="Copy id" aria-label="not_paid">
-                          <span className={classes.idCopy}>{user._id}</span>
+                          <span className={classes.idCopy}>{order._id}</span>
                         </Tooltip>
                       </CopyToClipboard>
                     </TableCell>
 
-                    <TableCell align="center">{user.name}</TableCell>
-                    <TableCell align="center">{user.email}</TableCell>
+                    <TableCell align="center">{order.user && order.user.name}</TableCell>
+                    <TableCell align="center">{order.createdAt.substring(0, 10)}</TableCell>
+                    <TableCell align="center">{`${order.totalPrice}€`}</TableCell>
                     <TableCell align="center">
-                      {user.isAdmin ? (
-                        <CheckIcon className={classes.checkIcon} />
+                      {order.isPaid ? (
+                        order.paidAt.substring(0, 10)
+                      ) : (
+                        <CloseIcon className={classes.noIcon} />
+                      )}
+                    </TableCell>
+                    <TableCell align="center">
+                      {order.isDelivered ? (
+                        order.deliveredAt.substring(0, 10)
                       ) : (
                         <CloseIcon className={classes.noIcon} />
                       )}
                     </TableCell>
                     <TableCell align="center" padding="default">
-                      <div style={{ display: 'flex' }}>
-                        <EditUserDialog userId={user._id} />
-                        <IconButton
-                          edge="end"
-                          aria-label="delete"
-                          onClick={() => handleDelete(user._id)}
-                          className={classes.noIcon}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                      </div>
+                      <Button
+                        component={NavLink}
+                        to={`/order/${order._id}`}
+                        variant="outlined"
+                        size="small"
+                        color="primary"
+                      >
+                        Details
+                      </Button>
                     </TableCell>
                   </StyledTableRow>
                 ))}
@@ -161,4 +161,4 @@ const UserListScreen = ({ history }) => {
   );
 };
 
-export default UserListScreen;
+export default OrderListScreen;
