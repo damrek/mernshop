@@ -12,9 +12,12 @@ import {
 import CloseIcon from '@material-ui/icons/Close';
 import EditIcon from '@material-ui/icons/Edit';
 import React, { useEffect, useState } from 'react';
+import NumberFormat from 'react-number-format';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { listProductDetails } from '../../actions/productActions';
+import { listProductDetails, listProducts, updateProduct } from '../../actions/productActions';
+import { PRODUCT_DETAILS_RESET, PRODUCT_UPDATE_RESET } from '../../constants/productConstants';
+import Loader from '../Loader';
 import Message from '../Message';
 
 const useStyles = makeStyles((theme) => ({
@@ -37,26 +40,57 @@ const useStyles = makeStyles((theme) => ({
 
 const FormDialog = ({ productId, handleClose }) => {
   const dispatch = useDispatch();
+
   const [name, setName] = useState('');
+  const [price, setPrice] = useState(0);
+  const [image, setImage] = useState('');
+  const [brand, setBrand] = useState('');
+  const [category, setCategory] = useState('');
+  const [countInStock, setCountInStock] = useState(0);
   const [description, setDescription] = useState('');
 
   const classes = useStyles();
 
   const productDetails = useSelector((state) => state.productDetails);
-  // eslint-disable-next-line no-unused-vars
   const { loading, error, product = null } = productDetails;
 
+  const productUpdate = useSelector((state) => state.productUpdate);
+  const { loading: loadingUpdate, error: errorUpdate, success: successUpdate } = productUpdate;
+
   useEffect(() => {
-    if (!product.name || product._id !== productId) {
-      dispatch(listProductDetails(productId));
+    if (successUpdate) {
+      dispatch({ type: PRODUCT_UPDATE_RESET });
+      dispatch({ type: PRODUCT_DETAILS_RESET });
+      dispatch(listProducts());
     } else {
-      setName(product.name);
-      setDescription(product.description);
+      if (!product.name || product._id !== productId) {
+        dispatch(listProductDetails(productId));
+      } else {
+        setName(product.name);
+        setPrice(product.price);
+        setImage(product.image);
+        setBrand(product.brand);
+        setCategory(product.category);
+        setCountInStock(product.countInStock);
+        setDescription(product.description);
+      }
     }
-  }, [dispatch, productId, product]);
+  }, [dispatch, productId, product, successUpdate]);
 
   const submitHandler = (e) => {
     e.preventDefault();
+    dispatch(
+      updateProduct({
+        _id: productId,
+        name,
+        price,
+        image,
+        brand,
+        category,
+        countInStock,
+        description,
+      })
+    );
   };
 
   return (
@@ -76,6 +110,10 @@ const FormDialog = ({ productId, handleClose }) => {
         </IconButton>
       </DialogTitle>
       <DialogContent>
+        {error && <Message severity="error">{error}</Message>}
+        {loading && <Loader open={loading} />}
+        {errorUpdate && <Message severity="error">{errorUpdate}</Message>}
+        {loadingUpdate && <Loader open={loadingUpdate} />}
         <form className={classes.root} autoComplete="off">
           <Typography align="center" variant="subtitle2">
             {product._id}
@@ -93,6 +131,52 @@ const FormDialog = ({ productId, handleClose }) => {
             label="Description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+            multiline
+          />
+          <TextField
+            variant="outlined"
+            id="image"
+            label="Image"
+            value={image}
+            onChange={(e) => setImage(e.target.value)}
+            multiline
+          />
+          <NumberFormat
+            label="Price €"
+            value={price}
+            customInput={TextField}
+            type="text"
+            allowNegative={false}
+            decimalScale={2}
+            onChange={(e) => {
+              setPrice(e.target.value);
+            }}
+          />
+          <NumberFormat
+            label="Count in stock"
+            value={countInStock}
+            customInput={TextField}
+            type="text"
+            allowNegative={false}
+            decimalScale={0}
+            onChange={(e) => {
+              setCountInStock(e.target.value);
+            }}
+          />
+          <TextField
+            variant="outlined"
+            id="brand"
+            label="Brand"
+            value={brand}
+            onChange={(e) => setBrand(e.target.value)}
+            multiline
+          />
+          <TextField
+            variant="outlined"
+            id="category"
+            label="Category"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
             multiline
           />
           <Button variant="contained" color="primary" onClick={submitHandler}>
