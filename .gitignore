@@ -26,3 +26,6 @@ yarn-error.log*
 
 # vscode
 .vscode
+
+# uploads
+uploads
