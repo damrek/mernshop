@@ -1,3 +1,4 @@
+import { Badge } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
@@ -5,6 +6,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import PersonIcon from '@material-ui/icons/Person';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import { isEmpty } from 'lodash';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
@@ -44,6 +46,9 @@ const Header = () => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
+  const cart = useSelector((state) => state.cart);
+  const { cartItems } = cart;
+
   return (
     <header>
       <AppBar position="static">
@@ -53,12 +58,19 @@ const Header = () => {
               Ecommerce Application
             </NavLink>
           </Typography>
-
           <Button
             className={classes.button}
             component={NavLink}
             to="/cart"
-            startIcon={<ShoppingCartIcon />}
+            startIcon={
+              <Badge
+                color="error"
+                variant="standard"
+                badgeContent={!isEmpty(cartItems) ? cartItems.length : 0}
+              >
+                <ShoppingCartIcon />
+              </Badge>
+            }
           >
             Cart
           </Button>
