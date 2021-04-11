@@ -8,15 +8,17 @@ import Loader from '../components/Loader';
 import Message from '../components/Message';
 import Product from '../components/Product';
 
-const HomeScreen = () => {
+const HomeScreen = ({ match }) => {
   const dispatch = useDispatch();
+
+  const keyword = match.params.keyword;
 
   const productList = useSelector((state) => state.productList);
   const { loading, error, products } = productList;
 
   useEffect(() => {
-    dispatch(listProducts());
-  }, [dispatch]);
+    dispatch(listProducts(keyword));
+  }, [dispatch, keyword]);
 
   return (
     <Grid container direction="row">
