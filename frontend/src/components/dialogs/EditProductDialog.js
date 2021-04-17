@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FormDialog = ({ productId, handleClose }) => {
+const FormDialog = ({ productId, handleClose, page }) => {
   const dispatch = useDispatch();
 
   const [name, setName] = useState('');
@@ -65,7 +65,7 @@ const FormDialog = ({ productId, handleClose }) => {
     if (successUpdate) {
       dispatch({ type: PRODUCT_UPDATE_RESET });
       dispatch({ type: PRODUCT_DETAILS_RESET });
-      dispatch(listProducts());
+      dispatch(listProducts('', page));
     } else {
       if (!product.name || product._id !== productId) {
         dispatch(listProductDetails(productId));
@@ -79,7 +79,7 @@ const FormDialog = ({ productId, handleClose }) => {
         setDescription(product.description);
       }
     }
-  }, [dispatch, productId, product, successUpdate]);
+  }, [dispatch, productId, product, successUpdate, page]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -230,7 +230,7 @@ const FormDialog = ({ productId, handleClose }) => {
   );
 };
 
-const EditProductDialog = React.memo(({ productId }) => {
+const EditProductDialog = React.memo(({ productId, page }) => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -245,7 +245,7 @@ const EditProductDialog = React.memo(({ productId }) => {
       <IconButton edge="start" aria-label="edit" onClick={handleClickOpen} color="primary">
         <EditIcon />
       </IconButton>
-      {open && <FormDialog productId={productId} handleClose={handleClose} />}
+      {open && <FormDialog productId={productId} handleClose={handleClose} page={page} />}
     </>
   );
 });

@@ -169,7 +169,7 @@ const ProductListScreen = ({ history, match }) => {
                     <TableCell align="center">{product.brand}</TableCell>
                     <TableCell align="center" padding="default">
                       <div style={{ display: 'flex' }}>
-                        <EditProductDialog productId={product._id} />
+                        <EditProductDialog productId={product._id} page={pageNumber} />
                         <IconButton
                           edge="end"
                           aria-label="delete"
