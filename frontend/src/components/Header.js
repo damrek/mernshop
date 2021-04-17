@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     background: theme.palette.primary.main,
     padding: theme.spacing(1),
+    flexWrap: 'wrap',
   },
   title: {
     display: 'flex',

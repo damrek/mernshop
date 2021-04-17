@@ -4,6 +4,12 @@ import React, { useState } from 'react';
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+    height: '100%',
+  },
+  btn: {
+    marginBottom: '4px',
+    marginTop: '8px',
+    marginLeft: '5px',
   },
   textField: {
     backgroundColor: 'white',
@@ -35,13 +41,15 @@ const SearchBox = ({ history }) => {
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
           className={classes.textField}
+          margin="dense"
         />
         <Button
           type="submit"
           color="secondary"
           variant="contained"
-          size="small"
+          size="medium"
           onClick={submitHandler}
+          className={classes.btn}
         >
           Search
         </Button>
