@@ -9,6 +9,7 @@ import {
   TableBody,
   TableCell,
   TableContainer,
+  TableFooter,
   TableHead,
   TableRow,
   Tooltip,
@@ -26,6 +27,7 @@ import { addSnackBarMsg } from '../actions/snackbarActions';
 import EditProductDialog from '../components/dialogs/EditProductDialog';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import Paginate from '../components/Paginate';
 import SnackBarMsg from '../components/SnackBarMsg';
 import { PRODUCT_CREATE_RESET } from '../constants/productConstants';
 
@@ -49,6 +51,12 @@ const useStyles = makeStyles((theme) => ({
   },
   idCopy: {
     cursor: 'pointer',
+  },
+  footer: {
+    '& > *': {
+      margin: theme.spacing(1),
+      width: '100%',
+    },
   },
 }));
 
@@ -74,8 +82,10 @@ const ProductListScreen = ({ history, match }) => {
   const dispatch = useDispatch();
   const classes = useStyles();
 
+  const pageNumber = match.params.pageNumber || 1;
+
   const productList = useSelector((state) => state.productList);
-  const { loading, error, products } = productList;
+  const { loading, error, products, page, pages } = productList;
 
   const productDelete = useSelector((state) => state.productDelete);
   const { loading: loadingDelete, error: errorDelete, success: successDelete } = productDelete;
@@ -91,9 +101,9 @@ const ProductListScreen = ({ history, match }) => {
       history.push('/login');
     } else if (successCreate || userInfo.isAdmin) {
       dispatch({ type: PRODUCT_CREATE_RESET });
-      dispatch(listProducts());
+      dispatch(listProducts('', pageNumber));
     }
-  }, [dispatch, history, userInfo, successDelete, successCreate]);
+  }, [dispatch, history, userInfo, successDelete, successCreate, pageNumber]);
 
   const handleDelete = (id) => {
     if (window.confirm('Are you sure?')) {
@@ -174,6 +184,11 @@ const ProductListScreen = ({ history, match }) => {
                   </StyledTableRow>
                 ))}
               </TableBody>
+              <TableFooter>
+                <TableRow className={classes.footer}>
+                  <Paginate pages={pages} page={page} isAdmin={true} />
+                </TableRow>
+              </TableFooter>
             </Table>
           </TableContainer>
         )}
