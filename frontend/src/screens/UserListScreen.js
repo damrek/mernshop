@@ -26,7 +26,6 @@ import { deleteUser, listUsers } from '../actions/userActions';
 import EditUserDialog from '../components/dialogs/EditUserDialog';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
-import SnackBarMsg from '../components/SnackBarMsg';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -156,7 +155,6 @@ const UserListScreen = ({ history }) => {
           </TableContainer>
         )}
       </Grid>
-      {!loading && <SnackBarMsg />}
     </Container>
   );
 };

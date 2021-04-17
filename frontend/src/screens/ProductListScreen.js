@@ -28,7 +28,6 @@ import EditProductDialog from '../components/dialogs/EditProductDialog';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import Paginate from '../components/Paginate';
-import SnackBarMsg from '../components/SnackBarMsg';
 import { PRODUCT_CREATE_RESET } from '../constants/productConstants';
 
 const useStyles = makeStyles((theme) => ({
@@ -193,7 +192,6 @@ const ProductListScreen = ({ history, match }) => {
           </TableContainer>
         )}
       </Grid>
-      {!loading && <SnackBarMsg />}
     </Container>
   );
 };

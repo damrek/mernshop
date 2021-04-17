@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import Footer from './components/Footer';
 import Header from './components/Header';
+import SnackBarMsg from './components/SnackBarMsg';
 import CartScreen from './screens/CartScreen';
 import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
@@ -39,6 +40,7 @@ const App = () => {
         <Route path="/page/:pageNumber" component={HomeScreen} exact />
         <Route path="/search/:keyword/page/:pageNumber" component={HomeScreen} exact />
         <Route path="/" component={HomeScreen} exact />
+        <SnackBarMsg />
       </main>
       <Footer />
     </Router>

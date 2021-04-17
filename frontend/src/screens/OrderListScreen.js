@@ -24,7 +24,6 @@ import { listOrders } from '../actions/orderActions';
 import { addSnackBarMsg } from '../actions/snackbarActions';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
-import SnackBarMsg from '../components/SnackBarMsg';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -156,7 +155,6 @@ const OrderListScreen = ({ history }) => {
           </TableContainer>
         )}
       </Grid>
-      {!loading && <SnackBarMsg />}
     </Container>
   );
 };
