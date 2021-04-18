@@ -1,4 +1,6 @@
 import './index.css';
+import 'react-app-polyfill/ie11';
+import 'react-app-polyfill/stable';
 
 import { createMuiTheme } from '@material-ui/core';
 import { deepPurple } from '@material-ui/core/colors';

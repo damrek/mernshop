@@ -13,6 +13,7 @@
     "axios": "^0.21.0",
     "lodash": "^4.17.20",
     "react": "^17.0.1",
+    "react-app-polyfill": "^2.0.0",
     "react-copy-to-clipboard": "^5.0.3",
     "react-dom": "^17.0.1",
     "react-helmet": "^6.1.0",
@@ -70,12 +71,14 @@
     "production": [
       ">0.2%",
       "not dead",
-      "not op_mini all"
+      "not op_mini all",
+      "ie >= 9"
     ],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
-      "last 1 safari version"
+      "last 1 safari version",
+      "ie 11"
     ]
   },
   "devDependencies": {
