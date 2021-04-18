@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { listProductDetails } from '../actions/productActions';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import Meta from '../components/Meta';
 import { RatingBar } from '../components/RatingBar';
 
 const useStyles = makeStyles(() => ({
@@ -61,6 +62,7 @@ const ProductScreen = ({ history, match }) => {
   return (
     !_.isEmpty(product) && (
       <div className={classes.root}>
+        <Meta title={product.name} />
         <Grid container spacing={3} justify="center">
           <Grid item xs={12} md={12} lg={12}>
             <Button
