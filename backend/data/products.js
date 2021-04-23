@@ -48,6 +48,18 @@ const products = [
     numReviews: 12,
   },
   {
+    name: 'Sony Playstation 5',
+    image: '/images/playstation5.jpg',
+    description:
+      'Explore uncharted virtual territories and slay dragons with this sleek Sony PlayStation 5 gaming console. The 825GB SSD allows ultra-fast load times, while 3-D audio output produces crisp acoustics. This Sony PlayStation 5 gaming console supports haptic feedback for effortless communication in multiplayer setups, and adaptive triggers allow immersive gameplay',
+    brand: 'Sony',
+    category: 'Electronics',
+    price: 499.99,
+    countInStock: 15,
+    rating: 5,
+    numReviews: 5,
+  },
+  {
     name: 'Logitech G-Series Gaming Mouse',
     image: '/images/mouse.jpg',
     description:
@@ -70,6 +82,42 @@ const products = [
     countInStock: 0,
     rating: 4,
     numReviews: 12,
+  },
+  {
+    name: 'Amazon Kindle Paperwhite',
+    image: '/images/kindle_paperwhite.jpg',
+    description:
+      "Amazon's thinnest, lightest Kindle Paperwhite yet, with a sleek, modern design so you can read comfortably for hours. Features our signature 300 ppi, glare-free Paperwhite display, printed-quality text and twice the storage of the previous generation. Plus a single battery charge lasts weeks, not hours",
+    brand: 'Amazon',
+    category: 'Electronics',
+    price: 119.99,
+    countInStock: 8,
+    rating: 4,
+    numReviews: 6,
+  },
+  {
+    name: 'Garmin vivofit 4 Activity Tracker',
+    image: '/images/garmin_vivofit.jpg',
+    description:
+      'Garmin vivofit 4 is a slim, swim-friendly activity tracker with a customisable colour display and 1+ year battery life. Track your steps, sleep and more, plus get a personalised daily step goal based on your habits. With the Move IQ feature, vivofit 4 automatically captures a variety of activities, such as walking, running, biking and more, to view on Garmin Connect',
+    brand: 'Garmin',
+    category: 'Electronics',
+    price: 79.99,
+    countInStock: 10,
+    rating: 5,
+    numReviews: 1,
+  },
+  {
+    name: 'Apple iPad Pro 2020 11 Inch',
+    image: '/images/ipad.jpg',
+    description:
+      "Your next computer is not a computer. It's a magical piece of glass. It's so fast most PC laptops can't keep up. It has pro cameras that can transform reality. And you can use it with touch, pencil, keyboard, and now trackpad. It's the new iPad Pro",
+    brand: 'Apple',
+    category: 'Electronics',
+    price: 799.99,
+    countInStock: 9,
+    rating: 5,
+    numReviews: 8,
   },
 ];
 
