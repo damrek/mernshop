@@ -2,7 +2,7 @@
 
 [![Platform](https://img.shields.io/badge/frontend-react--v17.0.1-red)](https://github.com/facebook/react)
 [![Platform](https://img.shields.io/badge/ui-material--ui--v4.11.1-blue)](https://github.com/mui-org/material-ui)
-[![Platform](https://img.shields.io/badge/backend-express--v4.17.1-purple)](https://github.com/mui-org/material-ui)
+[![Platform](https://img.shields.io/badge/backend-express--v4.17.1-purple)](https://github.com/expressjs/express)
 
 MERN **Ecommerce** project app. This is my first web application done with educational purposes in order to learn new concepts about web development such as global state management.
 
