@@ -18,7 +18,7 @@ I have chosen MERN stack due to its deployment easiness:
 - **Backend**: API Express JS Framework (Node) + JWT Auth
 - **Frontend**: React (JavaScript + Hooks) + Redux + Material-UI components and theming
 
-For the the development process I decided to setup up Prettier + ESlint + Husky dependencies so as to assure an code format without broken rules in each git commit. Finally the website has been deployed in Heroku servers.
+For the the development process I decided to setup up Prettier + ESlint + Husky dependencies so as to assure an code format without broken rules in each git commit. Finally the website has been deployed on Heroku.
 
 ## Screenshot
 
