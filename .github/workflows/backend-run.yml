@@ -27,7 +27,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: npm install and start server
+      - name: Npm install and start server
         run: |
           npm ci
-          npm run start
+          npm run start &
