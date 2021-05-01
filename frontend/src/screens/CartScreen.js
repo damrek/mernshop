@@ -158,8 +158,15 @@ const CartScreen = ({ match, location, history }) => {
                             type="number"
                             allowNegative={false}
                             onChange={(e) => {
-                              if (e.target.value > 0)
+                              if (e.target.value > 0 && e.target.value <= item.countInStock)
                                 dispatch(addToCart(item.product, Number(e.target.value)));
+                            }}
+                            isAllowed={(values) => {
+                              const { formattedValue, floatValue } = values;
+                              return (
+                                (formattedValue === '' || floatValue <= item.countInStock) &&
+                                floatValue > 0
+                              );
                             }}
                           />
                         }

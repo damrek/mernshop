@@ -9,6 +9,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import PaymentIcon from '@material-ui/icons/Payment';
+import { isEmpty } from 'lodash';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -51,6 +52,8 @@ const PaymentScreen = ({ history }) => {
     history.push('/placeorder');
   };
 
+  const btnSubmitIsDisabled = isEmpty(paymentMethod);
+
   return (
     <div>
       <CheckoutSteps step={1} />
@@ -76,7 +79,13 @@ const PaymentScreen = ({ history }) => {
               <MenuItem value={'Stripe'}>Stripe</MenuItem>
             </Select>
           </FormControl>
-          <Button variant="contained" width="100px" color="primary" onClick={submitHandler}>
+          <Button
+            variant="contained"
+            width="100px"
+            color="primary"
+            onClick={submitHandler}
+            disabled={btnSubmitIsDisabled}
+          >
             Continue
           </Button>
         </form>
