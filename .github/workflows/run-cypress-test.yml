@@ -13,6 +13,7 @@ jobs:
 
       - name: Start development server
         run: |
+          npm ci
           npm run dev
 
       - name: Cypress run
