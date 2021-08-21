@@ -28,12 +28,14 @@ jobs:
       - name: Start development server
         run: |
           npm ci
-          npm run dev &
+          npm run server &
 
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
-          start: npm run cypress-run
+          start: |
+            npm run start
+            npm run cypress-run
           wait-on: http://localhost:3000
           # Wait for two minutes for the development server to start
           wait-on-timeout: 120
