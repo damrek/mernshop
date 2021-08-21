@@ -20,12 +20,15 @@ jobs:
           envkey_JWT_SECRET: ${{ secrets.JWT_SECRET }}
           envkey_PAYPAL_CLIENT_ID: ${{ secrets.PAYPAL_CLIENT_ID }}
 
+      - name: Npm install frontend
+        run: |
+          npm ci
+        working-directory: frontend
+
       - name: Start development server
         run: |
           npm ci
           npm run dev
-        env:
-          CI: false
 
       - name: Cypress run
         uses: cypress-io/github-action@v2
