@@ -3,7 +3,8 @@
   "viewportHeight": 1000,
   "projectId": "4scvrt",
   "baseUrl": "http://localhost:3000",
+  "video": false,
   "env": {
-    "COMMAND_DELAY": 750
+    "COMMAND_DELAY": 0
   }
 }
