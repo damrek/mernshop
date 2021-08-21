@@ -11,6 +11,15 @@ jobs:
       - name: Git checkout
         uses: actions/checkout@v2
 
+      - name: Generate .env file
+        uses: SpicyPizza/create-envfile@v1
+        with:
+          envkey_PORT: ${{ secrets.PORT }}
+          envkey_NODE_ENV: ${{ secrets.NODE_ENV }}
+          envkey_MONGO_URI: ${{ secrets.MONGO_URI }}
+          envkey_JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          envkey_PAYPAL_CLIENT_ID: ${{ secrets.PAYPAL_CLIENT_ID }}
+
       - name: Start development server
         run: |
           npm ci
