@@ -37,7 +37,11 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint-fix": "eslint . --ext .js --fix"
+    "lint-fix": "eslint . --ext .js --fix",
+    "cypress-open": "./node_modules/.bin/cypress open",
+    "cypress-local": "concurrently \"npm run start\" \"npm run cypress-open\"",
+    "cypress-run": "./node_modules/.bin/cypress run",
+    "cypress-ci": "start-server-and-test \"npm run start\" http://localhost:3000 \"npm run cypress-run\""
   },
   "husky": {
     "hooks": {
@@ -65,12 +69,14 @@
       "no-unused-vars": "error",
       "react-hooks/exhaustive-deps": "error",
       "simple-import-sort/imports": "warn",
-      "simple-import-sort/exports": "warn"
+      "simple-import-sort/exports": "warn",
+      "no-undef": "off"
     }
   },
   "eslintIgnore": [
     "node_modules",
-    "build/*"
+    "build/*",
+    "cypress/*"
   ],
   "browserslist": {
     "production": [
@@ -85,5 +91,8 @@
       "last 1 safari version",
       "ie 11"
     ]
+  },
+  "devDependencies": {
+    "cypress": "^8.3.0"
   }
 }

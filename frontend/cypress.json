@@ -1,0 +1,9 @@
+{
+  "viewportWidth": 1500,
+  "viewportHeight": 1000,
+  "projectId": "4scvrt",
+  "baseUrl": "http://localhost:3000",
+  "env": {
+    "COMMAND_DELAY": 750
+  }
+}

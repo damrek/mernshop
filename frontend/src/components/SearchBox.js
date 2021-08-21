@@ -42,6 +42,7 @@ const SearchBox = ({ history }) => {
           onChange={(e) => setKeyword(e.target.value)}
           className={classes.textField}
           margin="dense"
+          name="searchbox"
         />
         <Button
           type="submit"
