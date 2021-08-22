@@ -39,9 +39,7 @@
     "eject": "react-scripts eject",
     "lint-fix": "eslint . --ext .js --fix",
     "cypress-open": "./node_modules/.bin/cypress open",
-    "cypress-local": "concurrently \"npm run start\" \"npm run cypress-open\"",
-    "cypress-run": "./node_modules/.bin/cypress run",
-    "cypress-ci": "start-server-and-test \"npm run start\" http://localhost:3000 \"npm run cypress-run\""
+    "cypress-run": "./node_modules/.bin/cypress run"
   },
   "husky": {
     "hooks": {
