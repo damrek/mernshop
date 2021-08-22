@@ -30,6 +30,7 @@ const PasswordInput = ({ id, label, variant, defaultValue, value, handleOnChange
       defaultValue={defaultValue}
       value={value}
       onChange={(e) => handleOnChange(e.target.value)}
+      name="password"
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">

@@ -149,6 +149,7 @@ const ProductScreen = ({ history, match }) => {
                             disabled={addToCartBtnDisabled}
                             startIcon={<ShoppingBasketIcon />}
                             onClick={addToCartHandler}
+                            type="submit"
                           >
                             Add To Cart
                           </Button>

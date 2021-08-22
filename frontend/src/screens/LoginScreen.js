@@ -58,6 +58,7 @@ const LoginScreen = ({ location, history }) => {
           label="Email Address"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          name="email"
         />
         <PasswordInput
           id="password"
@@ -73,6 +74,7 @@ const LoginScreen = ({ location, history }) => {
           color="primary"
           onClick={submitHandler}
           disabled={btnSubmitIsDisabled}
+          type="submit"
         >
           Sign In
         </Button>
