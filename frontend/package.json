@@ -64,11 +64,11 @@
       "react-app/jest"
     ],
     "rules": {
-      "no-unused-vars": "error",
+      "no-unused-vars": "warn",
       "react-hooks/exhaustive-deps": "error",
       "simple-import-sort/imports": "warn",
       "simple-import-sort/exports": "warn",
-      "no-undef": "off"
+      "no-undef": "error"
     }
   },
   "eslintIgnore": [
@@ -91,6 +91,7 @@
     ]
   },
   "devDependencies": {
-    "cypress": "^8.3.0"
+    "cypress": "^8.3.0",
+    "eslint-plugin-cypress": "^2.12.1"
   }
 }

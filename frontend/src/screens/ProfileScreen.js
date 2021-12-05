@@ -17,7 +17,7 @@ import {
 } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
 import LocalGroceryStoreIcon from '@material-ui/icons/LocalGroceryStore';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
@@ -27,6 +27,7 @@ import FormContainer from '../components/FormContainer';
 import PasswordInput from '../components/inputs/PasswordInput';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import UserContext from '../context/UserContext';
 import isEmail from '../utils/validations/isEmail';
 
 const StyledTableCell = withStyles((theme) => ({
@@ -75,8 +76,9 @@ const ProfileScreen = ({ location, history }) => {
   const userDetails = useSelector((state) => state.userDetails);
   const { loading, error, user } = userDetails;
 
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
+  const {
+    userLogin: { userInfo },
+  } = useContext(UserContext);
 
   const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
   const { success } = userUpdateProfile;
@@ -87,7 +89,11 @@ const ProfileScreen = ({ location, history }) => {
   const passwordsMatch = password === confirmPassword;
   const isValidEmail = useMemo(() => isEmail(email), [email]);
   const btnSubmitIsDisabled =
-    name === '' || email === '' || password !== confirmPassword || password.length === 0;
+    name === '' ||
+    email === '' ||
+    password !== confirmPassword ||
+    password.length === 0 ||
+    userInfo.isAdmin;
 
   useEffect(() => {
     if (!userInfo) {

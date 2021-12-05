@@ -17,7 +17,7 @@ import {
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -26,6 +26,7 @@ import { deleteUser, listUsers } from '../actions/userActions';
 import EditUserDialog from '../components/dialogs/EditUserDialog';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import UserContext from '../context/UserContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -72,8 +73,9 @@ const UserListScreen = ({ history }) => {
   const userList = useSelector((state) => state.userList);
   const { loading, error, users } = userList;
 
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
+  const {
+    userLogin: { userInfo },
+  } = useContext(UserContext);
 
   const userDelete = useSelector((state) => state.userDelete);
   const { success: successDelete } = userDelete;

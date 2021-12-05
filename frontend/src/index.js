@@ -10,6 +10,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
 import App from './App';
+import { UserProvider } from './context/UserContext';
 import store from './store';
 
 const theme = createMuiTheme({
@@ -23,7 +24,9 @@ const theme = createMuiTheme({
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <Provider store={store}>
-      <App />
+      <UserProvider>
+        <App />
+      </UserProvider>
     </Provider>
   </ThemeProvider>,
   document.getElementById('root')

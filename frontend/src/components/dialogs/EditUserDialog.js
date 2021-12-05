@@ -106,6 +106,7 @@ const FormDialog = ({ userId, handleClose }) => {
             label="Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            disabled={user.isAdmin}
           />
           <TextField
             variant="outlined"
@@ -113,6 +114,7 @@ const FormDialog = ({ userId, handleClose }) => {
             label="Email Address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            disabled={user.isAdmin}
           />
 
           <FormControlLabel
@@ -122,11 +124,17 @@ const FormDialog = ({ userId, handleClose }) => {
                 onChange={(e) => setIsAdmin(e.target.checked)}
                 name="Admin"
                 color="primary"
+                disabled={user.isAdmin}
               />
             }
             label="Is admin?"
           />
-          <Button variant="contained" color="primary" onClick={submitHandler}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={submitHandler}
+            disabled={user.isAdmin}
+          >
             Update user
           </Button>
         </form>

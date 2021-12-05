@@ -14,7 +14,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { PayPalButton } from 'react-paypal-button-v2';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
@@ -27,6 +27,7 @@ import {
   ORDER_DETAILS_RESET,
   ORDER_PAY_RESET,
 } from '../constants/orderConstants';
+import UserContext from '../context/UserContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,8 +59,9 @@ const OrderScreen = ({ match, history }) => {
   const orderDeliver = useSelector((state) => state.orderDeliver);
   const { loading: loadingDeliver, success: successDeliver } = orderDeliver;
 
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
+  const {
+    userLogin: { userInfo },
+  } = useContext(UserContext);
 
   if (!loading && !error) {
     order.itemsPrice = order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0);
