@@ -18,7 +18,7 @@ import {
 } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import DeleteIcon from '@material-ui/icons/Delete';
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -29,6 +29,7 @@ import Loader from '../components/Loader';
 import Message from '../components/Message';
 import Paginate from '../components/Paginate';
 import { PRODUCT_CREATE_RESET } from '../constants/productConstants';
+import UserContext from '../context/UserContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -92,8 +93,9 @@ const ProductListScreen = ({ history, match }) => {
   const productCreate = useSelector((state) => state.productCreate);
   const { loading: loadingCreate, error: errorCreate, success: successCreate } = productCreate;
 
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
+  const {
+    userLogin: { userInfo },
+  } = useContext(UserContext);
 
   useEffect(() => {
     if (!userInfo || !userInfo.isAdmin) {

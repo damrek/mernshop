@@ -16,7 +16,7 @@ I have chosen MERN stack due to its deployment easiness:
 
 - **Database**: MongoDB Atlas + Mongoose
 - **Backend**: API Express JS Framework (Node) + JWT Auth
-- **Frontend**: React (JavaScript + Hooks) + Redux + Material-UI components and theming
+- **Frontend**: React (JavaScript + Hooks + Api Context) + Redux + Material-UI components and theming
 - **Testing**: Frontend E2E tests with Cypress
 
 For the the development process I decided to setup up Prettier + ESlint + Husky dependencies so as to assure an code format without broken rules in each git commit. Finally the website has been deployed on Heroku.

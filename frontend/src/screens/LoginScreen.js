@@ -1,6 +1,6 @@
 import { Button, Grid, makeStyles, TextField, Typography } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useContext, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { login } from '../actions/userActions';
@@ -8,6 +8,7 @@ import FormContainer from '../components/FormContainer';
 import PasswordInput from '../components/inputs/PasswordInput';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import UserContext from '../context/UserContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,8 +27,9 @@ const LoginScreen = ({ location, history }) => {
 
   const dispatch = useDispatch();
 
-  const userLogin = useSelector((state) => state.userLogin);
-  const { loading, error, userInfo } = userLogin;
+  const {
+    userLogin: { loading, error, userInfo },
+  } = useContext(UserContext);
 
   const redirect = location.search ? location.search.split('=')[1] : '/';
 

@@ -7,10 +7,11 @@ import Typography from '@material-ui/core/Typography';
 import PersonIcon from '@material-ui/icons/Person';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { isEmpty } from 'lodash';
-import React from 'react';
+import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink, Route } from 'react-router-dom';
 
+import UserContext from '../context/UserContext';
 import SearchBox from './SearchBox';
 import UserInfoMenu from './UserInfoMenu';
 
@@ -46,8 +47,9 @@ const useStyles = makeStyles((theme) => ({
 const Header = () => {
   const classes = useStyles();
 
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
+  const {
+    userLogin: { userInfo },
+  } = useContext(UserContext);
 
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;

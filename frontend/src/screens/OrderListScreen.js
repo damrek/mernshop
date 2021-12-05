@@ -15,7 +15,7 @@ import {
   withStyles,
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
@@ -24,6 +24,7 @@ import { listOrders } from '../actions/orderActions';
 import { addSnackBarMsg } from '../actions/snackbarActions';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import UserContext from '../context/UserContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -70,8 +71,9 @@ const OrderListScreen = ({ history }) => {
   const orderList = useSelector((state) => state.orderList);
   const { loading, error, orders } = orderList;
 
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
+  const {
+    userLogin: { userInfo },
+  } = useContext(UserContext);
 
   const userDelete = useSelector((state) => state.userDelete);
   const { success: successDelete } = userDelete;
