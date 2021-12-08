@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       color: 'red',
     },
+    marginTop: theme.spacing(5),
   },
 
   menuItemRoot: {
@@ -74,6 +75,7 @@ const UserInfoMenu = ({ userInfo }) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
         classes={{ paper: classes.menuPaper }}
+        elevation={0}
       >
         <MenuItem
           onClick={handleClose}
