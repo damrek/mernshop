@@ -16,7 +16,8 @@ import {
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import React, { useEffect } from 'react';
+import { debounce } from 'lodash';
+import React, { useEffect, useMemo } from 'react';
 import NumberFormat from 'react-number-format';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -62,11 +63,16 @@ const CartScreen = ({ match, location, history }) => {
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
 
+  const debouncedAddToCart = useMemo(
+    () => debounce((productId, qty) => dispatch(addToCart(productId, qty)), 250),
+    [dispatch]
+  );
+
   useEffect(() => {
     if (productId) {
-      dispatch(addToCart(productId, qty));
+      debouncedAddToCart(productId, qty);
     }
-  }, [dispatch, productId, qty]);
+  }, [dispatch, productId, qty, debouncedAddToCart]);
 
   const removeFromCartHandler = (id) => {
     dispatch(removeFromCart(id));
@@ -159,7 +165,7 @@ const CartScreen = ({ match, location, history }) => {
                             allowNegative={false}
                             onChange={(e) => {
                               if (e.target.value > 0 && e.target.value <= item.countInStock)
-                                dispatch(addToCart(item.product, Number(e.target.value)));
+                                debouncedAddToCart(item.product, Number(e.target.value));
                             }}
                             isAllowed={(values) => {
                               const { formattedValue, floatValue } = values;
