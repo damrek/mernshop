@@ -10,7 +10,19 @@ import React, { useState } from 'react';
  * @param {*} params
  * @param  {...any} props
  */
-const PasswordInput = ({ id, label, variant, defaultValue, value, handleOnChange }) => {
+const PasswordInput = ({
+  id,
+  name = 'password',
+  label,
+  variant,
+  defaultValue,
+  value,
+  onChange, // Formik onChange handler
+  handleOnChange, // Custom onChange handler - remove in the future
+  onBlur,
+  error,
+  helperText,
+}) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => {
@@ -29,8 +41,9 @@ const PasswordInput = ({ id, label, variant, defaultValue, value, handleOnChange
       variant={variant}
       defaultValue={defaultValue}
       value={value}
-      onChange={(e) => handleOnChange(e.target.value)}
-      name="password"
+      onChange={onChange ? onChange : (e) => handleOnChange(e.target.value)}
+      onBlur={onBlur}
+      name={name}
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
@@ -44,6 +57,8 @@ const PasswordInput = ({ id, label, variant, defaultValue, value, handleOnChange
           </InputAdornment>
         ),
       }}
+      error={error}
+      helperText={helperText}
     />
   );
 };

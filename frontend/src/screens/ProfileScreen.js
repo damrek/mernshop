@@ -89,11 +89,7 @@ const ProfileScreen = ({ location, history }) => {
   const passwordsMatch = password === confirmPassword;
   const isValidEmail = useMemo(() => isEmail(email), [email]);
   const btnSubmitIsDisabled =
-    name === '' ||
-    email === '' ||
-    password !== confirmPassword ||
-    password.length === 0 ||
-    userInfo.isAdmin;
+    name === '' || email === '' || password !== confirmPassword || password.length < 6;
 
   useEffect(() => {
     if (!userInfo) {
