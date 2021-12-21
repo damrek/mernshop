@@ -16,7 +16,7 @@ I have chosen MERN stack due to its deployment easiness:
 
 - **Database**: MongoDB Atlas + Mongoose
 - **Backend**: API Express JS Framework (Node) + JWT Auth
-- **Frontend**: React (JavaScript + Hooks + Api Context) + Redux + Material-UI components and theming
+- **Frontend**: React (JavaScript + Hooks + Api Context) + Redux + Formik + Material-UI components and theming
 - **Testing**: Frontend E2E tests with Cypress
 
 For the the development process I decided to setup up Prettier + ESlint + Husky dependencies so as to assure an code format without broken rules in each git commit. Finally the website has been deployed on Heroku.
@@ -74,7 +74,7 @@ $ npm run data:destroy
 
 ## Issues and missing features
 
-The application has been developed following a tutorial from Udemy with some differences so as to adapt to my custom components and material-ui library. There are some minor bugs and writing review system couldn't be finished due to lack of time. In the future I would like to refactor some parts and apply redux-form.
+The application has been developed following a tutorial from Udemy with some differences so as to adapt to my custom components and material-ui library. There are some minor bugs and writing review system couldn't be finished due to lack of time. In the future I would like to refactor some parts and ~~apply redux-form~~. I set up Formik library in order to manage form validations, currently is working in user register screen only.
 
 ## Support me
 
